@@ -1,0 +1,31 @@
+.dashboardCards {
+  width: 70rem;
+  margin: 0 auto;
+  margin-top: 4rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboardCards div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 230px;
+  height: 230px;
+  color: #fff;
+  text-align: center;
+  box-shadow: none;
+}
+
+.dashboardCards div h1 {
+  font-size: 4.3rem;
+}
+
+.dashboardCards div h2 {
+  font-size: 1.3rem;
+}
+
+.item1 {
+  background-color: #8c242c !important;
+}

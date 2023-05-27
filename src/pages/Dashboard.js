@@ -1,10 +1,19 @@
-import React from "react";
+import { useState } from "react";
 import classes from "../components/dashboard/dashboard.module.css";
 import logo from "../static/images/citu_logo.png";
 
+import DashBoardContent from "../components/dashboard/DashBoardContent";
+import Manage from "../components/dashboard/Manage";
+
 const Dashboard = () => {
+  const [isDashboardOpen, setIsDashboardOpen] = useState(true);
+
+  const toggleDashboard = () => {
+    setIsDashboardOpen(!isDashboardOpen);
+  };
+
   return (
-    <div>
+    <>
       <header className={classes.dashboardHeader}>
         <div className={classes.intro}>
           <img src={logo} alt="logo" className={classes.logo} />
@@ -15,12 +24,27 @@ const Dashboard = () => {
         </div>
         <nav>
           <ul className={classes.dashboardNav}>
-            <li>Dashboard</li>
-            <li>Users</li>
+            <li>
+              <button
+                onClick={toggleDashboard}
+                className={`${isDashboardOpen ? classes.active : ""}`}
+              >
+                Dashboard
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={toggleDashboard}
+                className={`${!isDashboardOpen ? classes.active : ""}`}
+              >
+                Manage
+              </button>
+            </li>
           </ul>
         </nav>
       </header>
-    </div>
+      <main>{isDashboardOpen ? <DashBoardContent /> : <Manage />}</main>
+    </>
   );
 };
 

@@ -5,6 +5,10 @@
   display: flex;
 }
 
+.dashboardHeader {
+  border-radius: 0 0 2rem 2rem;
+}
+
 .intro {
   gap: 2rem;
 }
@@ -42,6 +46,7 @@
   color: #808080;
   font-weight: 500;
   font-size: 1.1rem;
+  padding-bottom: 1rem;
   cursor: pointer;
   background-color: inherit;
   border: none;

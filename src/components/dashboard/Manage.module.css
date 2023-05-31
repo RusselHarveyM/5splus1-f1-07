@@ -20,3 +20,9 @@
   color: #4a4a4a !important;
   transform: scale(1.2);
 }
+
+.manageContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

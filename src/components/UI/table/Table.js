@@ -3,8 +3,8 @@ import { useTable } from "react-table";
 import "./table.css";
 
 const Table = (props) => {
-  const columns = useMemo(() => props.columns, []);
-  const data = useMemo(() => props.data, []);
+  const columns = useMemo(() => props.columns, [props.columns]);
+  const data = useMemo(() => props.data, [props.data]);
 
   const tableInstance = useTable({ columns, data });
 

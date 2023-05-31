@@ -8,8 +8,14 @@ const Table = (props) => {
 
   const tableInstance = useTable({ columns, data });
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    tableInstance;
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    footerGroups,
+    rows,
+    prepareRow,
+  } = tableInstance;
 
   return (
     <table {...getTableProps()}>
@@ -34,6 +40,17 @@ const Table = (props) => {
           );
         })}
       </tbody>
+      <tfoot>
+        {footerGroups.map((footerGroup) => {
+          return (
+            <tr {...footerGroup.getFooterGroupProps()}>
+              {footerGroup.headers.map((column) => (
+                <td {...column.getFooterProps()}>{column.render("Footer")}</td>
+              ))}
+            </tr>
+          );
+        })}
+      </tfoot>
     </table>
   );
 };

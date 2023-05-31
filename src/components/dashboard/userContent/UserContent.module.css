@@ -21,18 +21,25 @@
   font-size: 1.7rem;
 }
 
-.search {
-  border-radius: 20px;
-  border: none;
-  background-color: #f6f6f6;
-  padding: 0.5rem 1rem;
-}
 .actionBtn {
   background-color: inherit;
   border: none;
   cursor: pointer;
+  padding: 5px;
 }
 .actionBtn img {
   width: 15px;
   height: 15px;
+}
+
+.actionBtnChoices {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.actionBtnChoices button {
+  background-color: inherit;
+  cursor: pointer;
+  border: none;
 }

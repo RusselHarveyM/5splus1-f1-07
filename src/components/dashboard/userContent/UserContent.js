@@ -3,83 +3,92 @@ import Table from "../../UI/table/Table";
 import classes from "./UserContent.module.css";
 import action from "../../../static/images/link.png";
 import deleteIcon from "../../../static/images/delete.png";
+import editIcon from "../../../static/images/edit.png";
 
 import { useState, useCallback } from "react";
+import GlobalFilter from "../../GlobalFilter";
 
 const UserContent = () => {
   const [actionBtns, setActionBtns] = useState({});
+  const [filter, setFilter] = useState({ filter: "default", setFil: () => {} });
 
-  // Use useCallback to avoid creating a new function on every render
-  const ActionBtnHandler = useCallback((rowId) => {
-    setActionBtns((prevState) => {
-      // Reset the state of all buttons
-      const newState = Object.keys(prevState).reduce((acc, key) => {
-        acc[key] = false;
-        return acc;
-      }, {});
-
-      // Toggle the state of the clicked button
-      newState[rowId] = !prevState[rowId];
-
-      return newState;
-    });
-  }, []);
+  const ActionBtnHandler = useCallback(
+    (rowId) => {
+      setActionBtns((prevState) => ({
+        ...Object.keys(prevState).reduce((acc, key) => {
+          acc[key] = false;
+          return acc;
+        }, {}),
+        [rowId]: !prevState[rowId],
+      }));
+    },
+    [setActionBtns]
+  );
 
   const m_columns = [
     {
       Header: "Id",
       accessor: "User Id",
-      Footer: "Id",
     },
     {
       Header: "Last Name",
       accessor: "Last Name",
-      Footer: "Last Name",
     },
     {
       Header: "First Name",
       accessor: "First Name",
-      Footer: "First Name",
     },
     {
       Header: "Username",
       accessor: "Username",
-      Footer: "Username",
     },
     {
       Header: "Actions",
-      Cell: ({ row }) => (
-        <>
-          {!actionBtns[row.original["User Id"]] ? (
-            <button
-              onClick={() => ActionBtnHandler(row.original["User Id"])}
-              className={classes.actionBtn}
-            >
-              <img src={action} alt="actionIcon" />
-            </button>
-          ) : (
-            <div>
-              <button>
-                <img src={deleteIcon} alt="editIcon" />
+      Cell: ({ row }) => {
+        return (
+          <>
+            {!actionBtns[row.original["User Id"]] ? (
+              <button
+                onClick={() => {
+                  ActionBtnHandler(row.original["User Id"]);
+                }}
+                className={classes.actionBtn}
+              >
+                <img src={action} alt="actionIcon" />
               </button>
-              <button>
-                <img src={deleteIcon} alt="deleteIcon" />
-              </button>
-            </div>
-          )}
-        </>
-      ),
-      Footer: "Actions",
+            ) : (
+              <div
+                className={classes.actionBtnChoices + " " + classes.actionBtn}
+              >
+                <button>
+                  <img src={editIcon} alt="editIcon" />
+                </button>
+                <button>
+                  <img src={deleteIcon} alt="deleteIcon" />
+                </button>
+              </div>
+            )}
+          </>
+        );
+      },
     },
   ];
+  const filterHandler = (fil, setFil) => {
+    setFilter({ filter: fil, setFil: setFil });
+  };
 
   return (
     <div className={classes.tableContainer}>
       <header className={classes.tableHeader}>
         <h1>User</h1>
-        <input className={classes.search} type="text" placeholder="Search..." />
+        <GlobalFilter filter={filter.filter} setFilter={filter.setFil} />
       </header>
-      <Table columns={m_columns} data={Mock_data} />
+      <Table
+        columns={m_columns}
+        data={Mock_data}
+        filter={filter.filter}
+        filterHandler={filterHandler}
+      />
     </div>
   );
 };

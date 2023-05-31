@@ -46,7 +46,7 @@ const UserContent = () => {
       Header: "Actions",
       Cell: ({ row }) => {
         return (
-          <>
+          <div className={classes.actionCell}>
             {!actionBtns[row.original["User Id"]] ? (
               <button
                 onClick={() => {
@@ -68,7 +68,7 @@ const UserContent = () => {
                 </button>
               </div>
             )}
-          </>
+          </div>
         );
       },
     },

@@ -7,7 +7,7 @@ const GlobalFilter = ({ filter, setFilter }) => {
         className={classes.search}
         type="text"
         value={filter || ""}
-        placeholder="Seach..."
+        placeholder="Search..."
         onChange={(e) => setFilter(e.target.value)}
       />
     </span>

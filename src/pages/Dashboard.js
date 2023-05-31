@@ -19,7 +19,7 @@ const Dashboard = () => {
           <img src={logo} alt="logo" className={classes.logo} />
           <div className={classes.introText}>
             <h2>WELCOME BACK</h2>
-            <h1>CEBU INSTITUTE OF TECHNOLOGY</h1>
+            <h1>CEBU INSTITUTE OF TECHNOLOGY UNIVERSITY</h1>
           </div>
         </div>
         <nav>

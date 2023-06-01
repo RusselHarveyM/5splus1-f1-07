@@ -18,3 +18,46 @@
 .deleteOverlay h1 {
   color: #ff1c1c;
 }
+
+.editOverlay {
+  width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editBtn {
+  background-color: #5656ff !important;
+  border-color: #1515ff !important;
+}
+
+.editBtn:hover {
+  background-color: #1515ff !important;
+}
+
+.addBtn {
+  background-color: #3cff3c !important;
+  border-color: #00ff00 !important;
+}
+
+.addBtn:hover {
+  border-color: #00ff00 !important;
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  gap: 20px;
+}
+
+.editForm input {
+  border-radius: 15px;
+  border: none;
+  width: 100%;
+  background-color: #efefef;
+
+  padding: 20px;
+}

@@ -1,26 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import Table from "../../UI/table/Table";
 import classes from "./BuildingContent.module.css";
-import axios from "axios";
+import BuildingContext from "../../../context/building-context";
 
 const BuildingContent = () => {
-  const [buildingData, setBuildingData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await axios
-          .get("https://localhost:7124/api/buildings")
-          .then((response) => {
-            console.log(response.body);
-            setBuildingData(response.data);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  const buildingCtx = useContext(BuildingContext);
 
   const columnDefinition = [
     { Header: "Id", accessor: "id" },
@@ -33,7 +17,7 @@ const BuildingContent = () => {
       <header className={classes.tableHeader}>
         <h1>Buildings</h1>
       </header>
-      <Table columns={columnDefinition} data={buildingData} />;
+      <Table columns={columnDefinition} data={buildingCtx.buildingData} />;
     </div>
   );
 };

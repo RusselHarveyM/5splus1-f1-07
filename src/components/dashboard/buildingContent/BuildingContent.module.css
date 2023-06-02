@@ -1,0 +1,22 @@
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 75rem;
+  border-radius: 20px;
+  background-color: #fff;
+  margin-top: 2rem;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tableHeader h1 {
+  font-size: 1.7rem;
+}

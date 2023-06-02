@@ -1,6 +1,7 @@
 import classes from "./Manage.module.css";
 import { useReducer } from "react";
 import UserContent from "./userContent/UserContent";
+import BuildingContent from "./buildingContent/BuildingContent";
 
 const initialState = {
   usersContent: true,
@@ -78,7 +79,7 @@ const Manage = () => {
       </nav>
       <main className={classes.manageContent}>
         {state.usersContent ? <UserContent /> : ""}
-        {state.buildingContent ? "Building" : ""}
+        {state.buildingContent ? <BuildingContent /> : ""}
         {state.roomContent ? "Room" : ""}
         {state.spaceContent ? "Space" : ""}
         {state._5sContent ? "5s Archive" : ""}

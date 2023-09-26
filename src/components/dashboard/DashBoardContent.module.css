@@ -12,7 +12,7 @@
   justify-content: center;
   align-items: center;
   width: 230px;
-  height: 230px;
+  height: 200px;
   color: #fff;
   text-align: center;
   box-shadow: none;
@@ -33,10 +33,21 @@
 
 .buildingList {
   display: flex;
+  flex-direction: column;
   background-color: #ffd95e;
   margin: 0 auto;
   width: 95%;
   margin-top: 5rem;
   height: 500px;
   border-radius: 2rem;
+  padding: 1.5rem 4rem;
+}
+
+.containerTitle {
+  color: #8c242c;
+}
+
+.buildingCard {
+  height: 300px;
+  width: 450px;
 }

@@ -31,7 +31,11 @@ const DashBoardContent = () => {
         <Card className={classes.item3} />
         <Card className={classes.item4} />
       </section>
-      <div className={classes.buildingList}></div>
+      <div className={classes.buildingList}>
+        <div>
+          <h2 className={classes.containerTitle}>BUILDINGS</h2>
+        </div>
+      </div>
     </>
   );
 };

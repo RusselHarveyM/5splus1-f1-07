@@ -1,5 +1,5 @@
 .dashboardCards {
-  width: 70rem;
+  width: 55rem;
   margin: 0 auto;
   margin-top: 4rem;
   display: flex;
@@ -11,8 +11,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 230px;
-  height: 200px;
+  width: 180px;
+  height: 150px;
   color: #fff;
   text-align: center;
   box-shadow: none;
@@ -31,7 +31,7 @@
   scale: 1.1;
 }
 
-.buildingList {
+.buildingListContainer {
   display: flex;
   flex-direction: column;
   background-color: #ffd95e;
@@ -41,6 +41,26 @@
   height: 500px;
   border-radius: 2rem;
   padding: 1.5rem 4rem;
+}
+
+.buildingList {
+  display: flex;
+  margin-top: 2rem;
+  gap: 5%;
+}
+
+.buildingCards {
+  width: 15rem;
+  height: 250px;
+}
+
+.buildingTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  background-color: #8c242c;
+  color: #fff;
 }
 
 .containerTitle {

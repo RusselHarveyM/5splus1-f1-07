@@ -34,14 +34,16 @@ const DashBoardContent = () => {
         <Card className={classes.item3} />
         <Card className={classes.item4} />
       </section>
-      <div className={classes.buildingList}>
+      <div className={classes.buildingListContainer}>
         <div>
           <h2 className={classes.containerTitle}>BUILDINGS</h2>
         </div>
-        <div>
+        <div className={classes.buildingList}>
           {buildingCtx.buildingData.map((building) => (
-            <Card key={building.id}>
-              <h3>{building.buildingName}</h3>
+            <Card className={classes.buildingCards} key={building.id}>
+              <div className={classes.buildingTitle}>
+                <h3>{building.buildingName}</h3>
+              </div>
             </Card>
           ))}
         </div>

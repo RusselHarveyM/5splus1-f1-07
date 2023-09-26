@@ -1,10 +1,13 @@
 import classes from "./DashBoardContent.module.css";
 import Card from "../UI/Card/Card";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import BuildingContext from "../../context/building-context";
+import { useEffect, useState, useContext } from "react";
 
 const DashBoardContent = () => {
   const [roomsData, setRoomsData] = useState([]);
+  const buildingCtx = useContext(BuildingContext);
+  console.log("test >> ", buildingCtx);
 
   const fetchRooms = async () => {
     try {
@@ -34,6 +37,13 @@ const DashBoardContent = () => {
       <div className={classes.buildingList}>
         <div>
           <h2 className={classes.containerTitle}>BUILDINGS</h2>
+        </div>
+        <div>
+          {buildingCtx.buildingData.map((building) => (
+            <Card key={building.id}>
+              <h3>{building.buildingName}</h3>
+            </Card>
+          ))}
         </div>
       </div>
     </>

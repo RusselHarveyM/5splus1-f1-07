@@ -23,7 +23,7 @@ const DashBoardContent = () => {
   }, []);
 
   return (
-    <>
+    <div className={classes.dashboard}>
       <section className={classes.dashboardCards}>
         <Card className={classes.item1}>
           <h1>{roomsData.length}</h1>
@@ -50,7 +50,7 @@ const DashBoardContent = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

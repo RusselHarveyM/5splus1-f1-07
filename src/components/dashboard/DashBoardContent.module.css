@@ -1,7 +1,13 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 1024px;
+}
+
 .dashboardCards {
   width: 55rem;
   margin: 0 auto;
-  margin-top: 4rem;
   display: flex;
   justify-content: space-between;
 }
@@ -28,17 +34,17 @@
 
 .item1 {
   background-color: #8c242c !important;
-  scale: 1.1;
+  scale: 1.2;
 }
 
 .buildingListContainer {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   background-color: #ffd95e;
   margin: 0 auto;
-  width: 1180px;
+  width: 1080px;
   min-height: 500px;
-  margin-top: 5rem;
   border-radius: 2rem;
   padding: 1.5rem 4rem;
 }
@@ -55,7 +61,7 @@
   display: flex;
   flex-direction: column;
   width: 180px;
-  height: 200px;
+  height: 180px;
   cursor: pointer;
 }
 
@@ -65,6 +71,7 @@
   justify-content: center;
   height: 3rem;
   background-color: #8c242c;
+  border-radius: 0 0 10px 10px;
   color: #fff;
 }
 

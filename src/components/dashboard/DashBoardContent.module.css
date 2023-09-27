@@ -36,22 +36,27 @@
   flex-direction: column;
   background-color: #ffd95e;
   margin: 0 auto;
-  width: 95%;
+  width: 1180px;
+  min-height: 500px;
   margin-top: 5rem;
-  height: 500px;
   border-radius: 2rem;
   padding: 1.5rem 4rem;
 }
 
 .buildingList {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
   margin-top: 2rem;
-  gap: 5%;
+  justify-items: center;
+  row-gap: 2rem;
 }
 
 .buildingCards {
-  width: 13rem;
-  height: 220px;
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  height: 200px;
+  cursor: pointer;
 }
 
 .buildingTitle {
@@ -70,4 +75,8 @@
 .buildingCard {
   height: 300px;
   width: 450px;
+}
+
+.buildingImageContainer {
+  height: 100%;
 }

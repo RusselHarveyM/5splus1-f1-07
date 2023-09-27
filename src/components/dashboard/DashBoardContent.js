@@ -7,7 +7,6 @@ import { useEffect, useState, useContext } from "react";
 const DashBoardContent = () => {
   const [roomsData, setRoomsData] = useState([]);
   const buildingCtx = useContext(BuildingContext);
-  console.log("test >> ", buildingCtx);
 
   const fetchRooms = async () => {
     try {
@@ -41,6 +40,9 @@ const DashBoardContent = () => {
         <div className={classes.buildingList}>
           {buildingCtx.buildingData.map((building) => (
             <Card className={classes.buildingCards} key={building.id}>
+              <div className={classes.buildingImageContainer}>
+                <img alt="buildingImage"></img>
+              </div>
               <div className={classes.buildingTitle}>
                 <h3>{building.buildingName}</h3>
               </div>

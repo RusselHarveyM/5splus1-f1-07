@@ -11,9 +11,9 @@ import Buildings from "./pages/Buildings";
 const routeDefinition = createRoutesFromElements(
   <Route path="/">
     <Route index={true} element={<Dashboard />}></Route>
-    <Route path="buildings">
+    {/* <Route path="buildings">
       <Route index={true} element={<Buildings />}></Route>
-    </Route>
+    </Route> */}
   </Route>
 );
 

@@ -36,8 +36,13 @@ const DashBoardContent = () => {
       </section>
       <div className={classes.buildingListContainer}>
         <div className={classes.buildingImageContainer_header}>
-          <h2 className={classes.containerTitle}>BUILDINGS</h2>
-          <NavLink to={"buildings"}></NavLink>
+          <h2 className={classes.containerTitle}>
+            BUILDINGS{" "}
+            <sup className={classes.buildingLength}>
+              {buildingCtx.buildingData.length}
+            </sup>
+          </h2>
+          {/* <NavLink to={"buildings"}></NavLink> */}
         </div>
         <div className={classes.buildingList}>
           {buildingCtx.buildingData.map((building) => (

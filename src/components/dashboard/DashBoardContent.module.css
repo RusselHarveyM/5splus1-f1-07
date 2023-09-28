@@ -102,3 +102,11 @@
 .buildingImageContainer {
   height: 100%;
 }
+
+.buildingLength {
+  padding: 0.3px 5px;
+  font-size: 0.8rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  border: 3px solid #8c242c;
+}

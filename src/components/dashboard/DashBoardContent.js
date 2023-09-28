@@ -3,6 +3,7 @@ import Card from "../UI/Card/Card";
 import axios from "axios";
 import BuildingContext from "../../context/building-context";
 import { useEffect, useState, useContext } from "react";
+import { NavLink } from "react-router-dom";
 
 const DashBoardContent = () => {
   const [roomsData, setRoomsData] = useState([]);
@@ -34,8 +35,9 @@ const DashBoardContent = () => {
         <Card className={classes.item4} />
       </section>
       <div className={classes.buildingListContainer}>
-        <div>
+        <div className={classes.buildingImageContainer_header}>
           <h2 className={classes.containerTitle}>BUILDINGS</h2>
+          <NavLink to={"buildings"}></NavLink>
         </div>
         <div className={classes.buildingList}>
           {buildingCtx.buildingData.map((building) => (

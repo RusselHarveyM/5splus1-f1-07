@@ -49,6 +49,21 @@
   padding: 1.5rem 4rem;
 }
 
+.buildingImageContainer_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buildingImageContainer_header a {
+  border: none;
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 32px;
+  height: auto;
+  /* box-shadow: 0 3px 8px -3px rgba(0, 0, 0, 0.26); */
+}
+
 .buildingList {
   display: grid;
   grid-template-columns: auto auto auto auto;

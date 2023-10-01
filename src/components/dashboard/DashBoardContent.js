@@ -9,6 +9,8 @@ const DashBoardContent = () => {
   const [roomsData, setRoomsData] = useState([]);
   const buildingCtx = useContext(BuildingContext);
 
+  console.log("test >>>>> ", buildingCtx);
+
   const fetchRooms = async () => {
     try {
       await axios.get(`https://localhost:7124/api/rooms`).then((response) => {
@@ -46,14 +48,16 @@ const DashBoardContent = () => {
         </div>
         <div className={classes.buildingList}>
           {buildingCtx.buildingData.map((building) => (
-            <Card className={classes.buildingCards} key={building.id}>
-              <div className={classes.buildingImageContainer}>
-                <img alt="buildingImage"></img>
-              </div>
-              <div className={classes.buildingTitle}>
-                <h3>{building.buildingName}</h3>
-              </div>
-            </Card>
+            <NavLink>
+              <Card className={classes.buildingCards} key={building.id}>
+                <div className={classes.buildingImageContainer}>
+                  <img alt="buildingImage"></img>
+                </div>
+                <div className={classes.buildingTitle}>
+                  <h3>{building.buildingName}</h3>
+                </div>
+              </Card>
+            </NavLink>
           ))}
         </div>
       </div>

@@ -72,6 +72,10 @@
   row-gap: 2rem;
 }
 
+.buildingList a {
+  text-decoration: none;
+}
+
 .buildingCards {
   display: flex;
   flex-direction: column;

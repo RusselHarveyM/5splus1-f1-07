@@ -1,13 +1,11 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import ReactDom from "react-dom";
 import axios from "axios";
+import PropTypes from "prop-types";
 import Table from "../../UI/table/Table";
 import classes from "./BuildingContent.module.css";
-// import BuildingContext from "../../../context/building-context";
-
 import Backdrop from "../../UI/Modal/BackdropModal";
 import Overlay from "../../UI/Modal/BuildingOverlay";
-
 import action from "../../../static/images/link.png";
 import deleteIcon from "../../../static/images/delete.png";
 import editIcon from "../../../static/images/edit.png";
@@ -22,8 +20,6 @@ const BuildingContent = ({ onData }) => {
   const [isAdd, setIsAdd] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [refreshData, setRefreshData] = useState(false);
-
-  // const buildingCtx = useContext(BuildingContext);
 
   const fetchBuildings = useCallback(async () => {
     const response = await axios.get(`https://localhost:7124/api/buildings`);
@@ -45,98 +41,107 @@ const BuildingContent = ({ onData }) => {
   );
 
   useEffect(() => {
-    fetchBuildings()
-      .then((list) => {
-        setBuildingData(list);
-        setRefreshData(false);
-        onData(buildingData);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [fetchBuildings, refreshData]);
+    fetchBuildings().then((list) => {
+      setBuildingData(list);
+      setRefreshData(false);
+      onData(list);
+    });
+  }, [fetchBuildings, onData, refreshData]);
 
-  const deleteBuilding = async (name) => {
+  const deleteBuilding = useCallback(async (name) => {
     try {
       await axios.delete(`https://localhost:7124/api/buildings/${name}`);
       setRefreshData(true);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
 
-  const updateBuilding = async (id, data) => {
-    try {
-      await axios.put(`https://localhost:7124/api/buildings/${id}`, {
-        ...data,
-      });
-      setRefreshData(!refreshData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const updateBuilding = useCallback(
+    async (id, data) => {
+      try {
+        await axios.put(`https://localhost:7124/api/buildings/${id}`, {
+          ...data,
+        });
+        setRefreshData(!refreshData);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [refreshData]
+  );
 
-  const addBuilding = async (data) => {
-    try {
-      await axios.post(`https://localhost:7124/api/buildings`, { ...data });
-      setRefreshData(!refreshData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const addBuilding = useCallback(
+    async (data) => {
+      try {
+        await axios.post(`https://localhost:7124/api/buildings`, { ...data });
+        setRefreshData(!refreshData);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [refreshData]
+  );
 
-  const onDeleteBuilding = () => {
+  const onDeleteBuilding = useCallback(() => {
     setIsModalOpen(true);
     setIsDelete(true);
-  };
+  }, []);
 
-  const onEditBuilding = () => {
+  const onEditBuilding = useCallback(() => {
     setIsModalOpen(true);
     setIsEdit(true);
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setIsModalOpen(false);
     setIsDelete(false);
     setIsEdit(false);
     setIsAdd(false);
     setActionBtns({});
-  };
+  }, []);
 
-  const onAddBuilding = () => {
+  const onAddBuilding = useCallback(() => {
     setIsModalOpen(true);
     setIsAdd(true);
-  };
+  }, []);
 
-  const columnDefinition = [
-    { Header: "Id", accessor: "id" },
-    { Header: "Name", accessor: "buildingName" },
-    { Header: "Code", accessor: "buildingCode" },
-    {
-      Header: "Actions",
-      Cell: ({ row }) => (
-        <div className={classes.actionCell}>
-          {!actionBtns[row.original["id"]] ? (
-            <button
-              onClick={() => ActionBtnHandler(row.original["id"], row.original)}
-              className={classes.actionBtn}
-            >
-              <img src={action} alt="actionIcon" />
-            </button>
-          ) : (
-            <div className={`${classes.actionBtnChoices} ${classes.actionBtn}`}>
-              <button onClick={onEditBuilding}>
-                <img src={editIcon} alt="editIcon" />
+  const columnDefinition = useMemo(
+    () => [
+      { Header: "Id", accessor: "id" },
+      { Header: "Name", accessor: "buildingName" },
+      { Header: "Code", accessor: "buildingCode" },
+      {
+        Header: "Actions",
+        Cell: ({ row }) => (
+          <div className={classes.actionCell}>
+            {!actionBtns[row.original["id"]] ? (
+              <button
+                onClick={() =>
+                  ActionBtnHandler(row.original["id"], row.original)
+                }
+                className={classes.actionBtn}
+              >
+                <img src={action} alt="actionIcon" />
               </button>
-              <button onClick={onDeleteBuilding}>
-                <img src={deleteIcon} alt="deleteIcon" />
-              </button>
-            </div>
-          )}
-        </div>
-      ),
-    },
-  ];
+            ) : (
+              <div
+                className={`${classes.actionBtnChoices} ${classes.actionBtn}`}
+              >
+                <button onClick={onEditBuilding}>
+                  <img src={editIcon} alt="editIcon" />
+                </button>
+                <button onClick={onDeleteBuilding}>
+                  <img src={deleteIcon} alt="deleteIcon" />
+                </button>
+              </div>
+            )}
+          </div>
+        ),
+      },
+    ],
+    [actionBtns, ActionBtnHandler, onDeleteBuilding, onEditBuilding]
+  );
 
   return (
     <div className={classes.tableContainer}>
@@ -177,6 +182,10 @@ const BuildingContent = ({ onData }) => {
       <Table columns={columnDefinition} data={buildingData} />;
     </div>
   );
+};
+
+BuildingContent.propTypes = {
+  onData: PropTypes.func.isRequired,
 };
 
 export default BuildingContent;

@@ -82,7 +82,7 @@ const Overlay = (props) => {
             className={classes.editPreview}
             defaultValue={image}
             src={`data:image/png;base64,${image}`}
-            alt="Building Image preview"
+            alt="Building preview"
           />
           <input
             type="file"
@@ -116,6 +116,15 @@ const Overlay = (props) => {
           <label>Building Code</label>
           <input className={classes.search} type="text" id="buildingCode" />
           <label>Building Image</label>
+          {image && (
+            <img
+              id="image"
+              className={classes.editPreview}
+              defaultValue={image}
+              src={`data:image/png;base64,${image}`}
+              alt="Building preview"
+            />
+          )}
           <input
             type="file"
             accept="image/jpeg, image/png"

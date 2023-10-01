@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback, useReducer } from "react";
 import classes from "../components/dashboard/dashboard.module.css";
 import logo from "../static/images/citu_logo.png";
 
@@ -7,26 +7,39 @@ import Manage from "../components/dashboard/Manage";
 
 import axios from "axios";
 import BuildingContext from "../context/building-context";
+import { set } from "date-fns";
+
+const initialState = {
+  isNewData: false,
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "SET_IS_NEW_DATA":
+      return { ...state, isNewData: action.payload };
+    default:
+      return state;
+  }
+};
 
 const Dashboard = () => {
   const [isDashboardOpen, setIsDashboardOpen] = useState(true);
   const [buildingData, setBuildingData] = useState([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios
-          .get("https://localhost:7124/api/buildings")
-          .then((response) => {
-            console.log(response.body);
-            setBuildingData(response.data);
-          });
+        const response = await axios.get(
+          "https://localhost:7124/api/buildings"
+        );
+        setBuildingData(response.data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, []);
+  }, [state.isNewData]);
 
   const providerValue = useMemo(
     () => ({
@@ -38,6 +51,20 @@ const Dashboard = () => {
   const toggleDashboard = () => {
     setIsDashboardOpen(!isDashboardOpen);
   };
+
+  const refreshNewData = useCallback(
+    (data) => {
+      setBuildingData(data);
+      dispatch({ type: "SET_IS_NEW_DATA", payload: !state.isNewData });
+    },
+    [state.isNewData]
+  );
+
+  useEffect(() => {
+    return () => {
+      setBuildingData([]);
+    };
+  }, []);
 
   return (
     <>
@@ -72,7 +99,11 @@ const Dashboard = () => {
       </header>
       <main>
         <BuildingContext.Provider value={providerValue}>
-          {isDashboardOpen ? <DashBoardContent /> : <Manage />}
+          {isDashboardOpen ? (
+            <DashBoardContent />
+          ) : (
+            <Manage onData={refreshNewData} />
+          )}
         </BuildingContext.Provider>
       </main>
     </>

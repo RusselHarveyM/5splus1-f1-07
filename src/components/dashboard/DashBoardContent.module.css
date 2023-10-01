@@ -107,6 +107,12 @@
   height: 100%;
 }
 
+.buildingImageContainer img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px 10px 0 0;
+}
+
 .buildingLength {
   padding: 0.3px 5px;
   font-size: 0.8rem;

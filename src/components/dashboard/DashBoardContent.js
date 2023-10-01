@@ -51,7 +51,10 @@ const DashBoardContent = () => {
             <NavLink>
               <Card className={classes.buildingCards} key={building.id}>
                 <div className={classes.buildingImageContainer}>
-                  <img alt="buildingImage"></img>
+                  <img
+                    src={`data:image/png;base64,${building.image}`}
+                    alt="Building Image"
+                  ></img>
                 </div>
                 <div className={classes.buildingTitle}>
                   <h3>{building.buildingName}</h3>

@@ -28,7 +28,7 @@ const contentReducer = (state, action) => {
   }
 };
 
-const Manage = () => {
+const Manage = ({ onData }) => {
   const [state, dispatch] = useReducer(contentReducer, initialState);
 
   return (
@@ -79,7 +79,7 @@ const Manage = () => {
       </nav>
       <main className={classes.manageContent}>
         {state.usersContent ? <UserContent /> : ""}
-        {state.buildingContent ? <BuildingContent /> : ""}
+        {state.buildingContent ? <BuildingContent onData={onData} /> : ""}
         {state.roomContent ? "Room" : ""}
         {state.spaceContent ? "Space" : ""}
         {state._5sContent ? "5s Archive" : ""}

@@ -5,7 +5,7 @@ import axios from "axios";
 import Table from "../../UI/table/Table";
 import GlobalFilter from "../../GlobalFilter";
 import Backdrop from "../../UI/Modal/BackdropModal";
-import Overlay from "../../UI/Modal/Overlay";
+import Overlay from "../../UI/Modal/UserOverlay";
 
 import classes from "./UserContent.module.css";
 import action from "../../../static/images/link.png";

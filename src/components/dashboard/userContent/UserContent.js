@@ -7,7 +7,7 @@ import GlobalFilter from "../../GlobalFilter";
 import Backdrop from "../../UI/Modal/BackdropModal";
 import Overlay from "../../UI/Modal/UserOverlay";
 
-import classes from "./UserContent.module.css";
+import classes from "../Content.module.css";
 import action from "../../../static/images/link.png";
 import deleteIcon from "../../../static/images/delete.png";
 import editIcon from "../../../static/images/edit.png";
@@ -168,7 +168,7 @@ const UserContent = () => {
         </>
       )}
       <header className={classes.tableHeader}>
-        <div className={classes.createUser}>
+        <div className={classes.createEntity}>
           <h1>User</h1>
           <button onClick={onAddUser} className={classes.addBtn}>
             <img src={addIcon} alt="addIcon" />

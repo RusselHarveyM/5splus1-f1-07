@@ -132,6 +132,9 @@ const SpaceContent = () => {
                 <button onClick={onDeleteSpace}>
                   <img src={deleteIcon} alt="deleteIcon" />
                 </button>
+                <button onClick={""}>
+                  <img src={""} alt="moreIcon" />
+                </button>
               </div>
             )}
           </div>

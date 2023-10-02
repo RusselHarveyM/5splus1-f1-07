@@ -51,13 +51,13 @@
   align-items: center;
 }
 
-.createRoom {
+.createEntity {
   display: flex;
   gap: 20px;
   justify-content: center;
   align-items: center;
 }
-.createRoom button {
+.createEntity button {
   width: 25px;
   height: 25px;
   border: none !important ;
@@ -65,7 +65,7 @@
   cursor: pointer;
 }
 
-.createUser button img {
+.create button img {
   width: 25px !important;
   height: 25px;
 }

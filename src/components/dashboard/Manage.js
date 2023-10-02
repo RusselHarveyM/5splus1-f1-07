@@ -3,6 +3,7 @@ import { useReducer } from "react";
 import UserContent from "./userContent/UserContent";
 import BuildingContent from "./buildingContent/BuildingContent";
 import RoomContent from "./roomContent/RoomContent";
+import SpaceContent from "./spaceContent/SpaceContent";
 
 const initialState = {
   usersContent: true,
@@ -82,7 +83,7 @@ const Manage = ({ onData }) => {
         {state.usersContent ? <UserContent /> : ""}
         {state.buildingContent ? <BuildingContent onData={onData} /> : ""}
         {state.roomContent ? <RoomContent onData={onData} /> : ""}
-        {state.spaceContent ? "Space" : ""}
+        {state.spaceContent ? <SpaceContent /> : ""}
         {state._5sContent ? "5s Archive" : ""}
       </main>
     </>

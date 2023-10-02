@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./RoomContent.module.css";
+import classes from "../Content.module.css";
 
 import { useState, useCallback, useEffect, useMemo } from "react";
 import ReactDom from "react-dom";
@@ -175,7 +175,7 @@ const RoomContent = ({ onData }) => {
         </>
       )}
       <header className={classes.tableHeader}>
-        <div className={classes.createRoom}>
+        <div className={classes.createEntity}>
           <h1>Rooms</h1>
           <button onClick={onAddRoom} className={classes.addBtn}>
             <img src={addIcon} alt="addIcon" />

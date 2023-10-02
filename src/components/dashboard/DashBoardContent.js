@@ -9,8 +9,6 @@ const DashBoardContent = () => {
   const [roomsData, setRoomsData] = useState([]);
   const buildingCtx = useContext(BuildingContext);
 
-  // console.log("test >>>>> ", buildingCtx);
-
   const fetchRooms = async () => {
     try {
       await axios.get(`https://localhost:7124/api/rooms`).then((response) => {

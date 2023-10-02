@@ -3,7 +3,7 @@ import ReactDom from "react-dom";
 import axios from "axios";
 import PropTypes from "prop-types";
 import Table from "../../UI/table/Table";
-import classes from "./BuildingContent.module.css";
+import classes from "../Content.module.css";
 import Backdrop from "../../UI/Modal/BackdropModal";
 import Overlay from "../../UI/Modal/BuildingOverlay";
 import action from "../../../static/images/link.png";
@@ -172,7 +172,7 @@ const BuildingContent = ({ onData }) => {
         </>
       )}
       <header className={classes.tableHeader}>
-        <div className={classes.createBuilding}>
+        <div className={classes.createEntity}>
           <h1>Buildings</h1>
           <button onClick={onAddBuilding} className={classes.addBtn}>
             <img src={addIcon} alt="addIcon" />

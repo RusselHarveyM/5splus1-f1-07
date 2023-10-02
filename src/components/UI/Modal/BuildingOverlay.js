@@ -119,12 +119,12 @@ const BuildingOverlay = (props) => {
           <label>Building Code</label>
           <input className={classes.search} type="text" id="buildingCode" />
           <label>Building Image</label>
-          {image && (
+          {newImage && (
             <img
               id="image"
               className={classes.editPreview}
-              defaultValue={image}
-              src={`data:image/png;base64,${image}`}
+              defaultValue={newImage}
+              src={`data:image/png;base64,${newImage}`}
               alt="Building preview"
             />
           )}

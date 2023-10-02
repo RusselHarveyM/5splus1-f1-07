@@ -39,8 +39,8 @@ const Overlay = (props) => {
     const data = {
       buildingId: parseInt(event.target[0].value),
       roomNumber: event.target[1].value,
+      roomStatus: event.target[2].value,
       image: image,
-      status: event.target[2].value,
     };
     onUpdate(roomId, data);
     onConfirm();
@@ -57,8 +57,8 @@ const Overlay = (props) => {
     const data = {
       buildingId: parseInt(event.target[0].value),
       roomNumber: event.target[1].value,
-      image: newImage,
       status: event.target[2].value,
+      image: newImage,
     };
     onCreate(data);
     onConfirm();
@@ -82,6 +82,13 @@ const Overlay = (props) => {
             id="roomNumber"
             defaultValue={roomNumber}
           />
+          <label>Status</label>
+          <input
+            className={classes.search}
+            type="text"
+            id="roomStatus"
+            defaultValue={roomStatus}
+          />
           <label>Room Image</label>
           <img
             id="image"
@@ -94,13 +101,6 @@ const Overlay = (props) => {
             type="file"
             accept="image/jpeg, image/png"
             onChange={handleImageUpload}
-          />
-          <label>Status</label>
-          <input
-            className={classes.search}
-            type="text"
-            id="roomStatus"
-            defaultValue={roomStatus}
           />
 
           <Button type="submit" className={classes.editBtn}>
@@ -131,12 +131,12 @@ const Overlay = (props) => {
           <label>Status</label>
           <input className={classes.search} type="text" id="roomStatus" />
           <label>Room Image</label>
-          {image && (
+          {newImage && (
             <img
               id="image"
               className={classes.editPreview}
-              defaultValue={image}
-              src={`data:image/png;base64,${image}`}
+              defaultValue={newImage}
+              src={`data:image/png;base64,${newImage}`}
               alt="Room preview"
             />
           )}

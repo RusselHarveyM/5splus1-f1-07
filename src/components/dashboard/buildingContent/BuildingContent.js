@@ -9,7 +9,7 @@ import Overlay from "../../UI/Modal/BuildingOverlay";
 import action from "../../../static/images/link.png";
 import deleteIcon from "../../../static/images/delete.png";
 import editIcon from "../../../static/images/edit.png";
-import addIcon from "../../../static/images/add-user.png";
+import addIcon from "../../../static/images/add-building-2.png";
 
 const BuildingContent = ({ onData }) => {
   const [buildingData, setBuildingData] = useState([]);

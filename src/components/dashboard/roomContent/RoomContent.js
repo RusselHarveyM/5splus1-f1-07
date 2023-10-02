@@ -11,7 +11,7 @@ import Overlay from "../../UI/Modal/RoomOverlay";
 import action from "../../../static/images/link.png";
 import deleteIcon from "../../../static/images/delete.png";
 import editIcon from "../../../static/images/edit.png";
-import addIcon from "../../../static/images/add-user.png";
+import addIcon from "../../../static/images/add-room.png";
 
 const RoomContent = ({ onData }) => {
   const [roomData, setRoomData] = useState([]);

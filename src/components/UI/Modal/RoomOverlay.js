@@ -3,10 +3,10 @@ import classes from "./Overlay.module.css";
 import Button from "../Button/Button";
 import { useState, useMemo } from "react";
 
-const BuildingOverlay = (props) => {
-  const { status, data, buildingId, onUpdate, onConfirm, onDelete, onCreate } =
+const Overlay = (props) => {
+  const { status, data, roomId, onUpdate, onConfirm, onDelete, onCreate } =
     props;
-  const { buildingName = "", buildingCode = "" } = data || {};
+  const { buildingId = "", roomNumber = "", roomStatus = "" } = data || {};
   const [image, setImage] = useState(data?.image || null);
   const [newImage, setNewImage] = useState(null);
 
@@ -37,25 +37,28 @@ const BuildingOverlay = (props) => {
   const onEditHandler = (event) => {
     event.preventDefault();
     const data = {
-      buildingName: event.target[0].value,
-      buildingCode: event.target[1].value,
+      buildingId: parseInt(event.target[0].value),
+      roomNumber: event.target[1].value,
       image: image,
+      status: event.target[2].value,
     };
-    onUpdate(buildingId, data);
+    onUpdate(roomId, data);
     onConfirm();
   };
 
   const onDeleteHandler = () => {
-    onDelete(buildingName);
+    onDelete(roomNumber);
     onConfirm();
   };
 
   const onAddHandler = (event) => {
     event.preventDefault();
+    console.log("eventtt ::: ", event);
     const data = {
-      buildingName: event.target[0].value,
-      buildingCode: event.target[1].value,
+      buildingId: parseInt(event.target[0].value),
+      roomNumber: event.target[1].value,
       image: newImage,
+      status: event.target[2].value,
     };
     onCreate(data);
     onConfirm();
@@ -65,36 +68,43 @@ const BuildingOverlay = (props) => {
     return (
       <Card className={classes.editOverlay}>
         <form onSubmit={onEditHandler} className={classes.editForm}>
-          <label>Building Name</label>
+          <label>Building Id</label>
           <input
             className={classes.search}
             type="text"
-            id="buildingName"
-            defaultValue={buildingName}
+            id="buildingId"
+            defaultValue={buildingId}
           />
-          <label>Building Code</label>
+          <label>Name</label>
           <input
             className={classes.search}
             type="text"
-            id="buildingCode"
-            defaultValue={buildingCode}
+            id="roomNumber"
+            defaultValue={roomNumber}
           />
-          <label>Building Image</label>
+          <label>Room Image</label>
           <img
             id="image"
             className={classes.editPreview}
             defaultValue={image}
             src={`data:image/png;base64,${image}`}
-            alt="Building preview"
+            alt="Room preview"
           />
           <input
             type="file"
             accept="image/jpeg, image/png"
             onChange={handleImageUpload}
           />
+          <label>Status</label>
+          <input
+            className={classes.search}
+            type="text"
+            id="roomStatus"
+            defaultValue={roomStatus}
+          />
 
           <Button type="submit" className={classes.editBtn}>
-            Update
+            Update Room
           </Button>
         </form>
       </Card>
@@ -114,18 +124,20 @@ const BuildingOverlay = (props) => {
     return (
       <Card className={classes.editOverlay}>
         <form onSubmit={onAddHandler} className={classes.editForm}>
-          <label>Building Name</label>
-          <input className={classes.search} type="text" id="buildingName" />
-          <label>Building Code</label>
-          <input className={classes.search} type="text" id="buildingCode" />
-          <label>Building Image</label>
+          <label>Building Id</label>
+          <input className={classes.search} type="text" id="buildingId" />
+          <label>Name</label>
+          <input className={classes.search} type="text" id="roomNumber" />
+          <label>Status</label>
+          <input className={classes.search} type="text" id="roomStatus" />
+          <label>Room Image</label>
           {image && (
             <img
               id="image"
               className={classes.editPreview}
               defaultValue={image}
               src={`data:image/png;base64,${image}`}
-              alt="Building preview"
+              alt="Room preview"
             />
           )}
           <input
@@ -134,7 +146,7 @@ const BuildingOverlay = (props) => {
             onChange={handleImageUpload}
           />
           <Button type="submit" className={classes.addBtn}>
-            Add Building
+            Add Room
           </Button>
         </form>
       </Card>
@@ -142,4 +154,4 @@ const BuildingOverlay = (props) => {
   }
 };
 
-export default BuildingOverlay;
+export default Overlay;

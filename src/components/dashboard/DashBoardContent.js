@@ -9,7 +9,7 @@ const DashBoardContent = () => {
   const [roomsData, setRoomsData] = useState([]);
   const buildingCtx = useContext(BuildingContext);
 
-  console.log("test >>>>> ", buildingCtx);
+  // console.log("test >>>>> ", buildingCtx);
 
   const fetchRooms = async () => {
     try {
@@ -53,7 +53,7 @@ const DashBoardContent = () => {
                 <div className={classes.buildingImageContainer}>
                   <img
                     src={`data:image/png;base64,${building.image}`}
-                    alt="Building Image"
+                    alt="Building preview"
                   ></img>
                 </div>
                 <div className={classes.buildingTitle}>

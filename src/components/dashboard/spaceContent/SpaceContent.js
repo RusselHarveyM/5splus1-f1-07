@@ -4,11 +4,12 @@ import axios from "axios";
 import Table from "../../UI/table/Table";
 import classes from "../Content.module.css";
 import Backdrop from "../../UI/Modal/BackdropModal";
-import Overlay from "../../UI/Modal/BuildingOverlay";
+import Overlay from "../../UI/Modal/SpaceOverlay";
 import action from "../../../static/images/link.png";
 import deleteIcon from "../../../static/images/delete.png";
 import editIcon from "../../../static/images/edit.png";
 import addIcon from "../../../static/images/add-building-2.png";
+import moreIcon from "../../../static/images/more.png";
 
 const SpaceContent = () => {
   const [spaceData, setSpaceData] = useState([]);
@@ -46,9 +47,9 @@ const SpaceContent = () => {
     });
   }, [fetchSpaces, refreshData]);
 
-  const deleteSpace = useCallback(async (name) => {
+  const deleteSpace = useCallback(async (id) => {
     try {
-      await axios.delete(`https://localhost:7124/api/space/${name}`);
+      await axios.delete(`https://localhost:7124/api/space/${id}`);
       setRefreshData(true);
     } catch (error) {
       console.log(error);
@@ -133,7 +134,7 @@ const SpaceContent = () => {
                   <img src={deleteIcon} alt="deleteIcon" />
                 </button>
                 <button onClick={""}>
-                  <img src={""} alt="moreIcon" />
+                  <img src={moreIcon} alt="moreIcon" />
                 </button>
               </div>
             )}
@@ -159,7 +160,7 @@ const SpaceContent = () => {
               onConfirm={closeModal}
               onCreate={addSpace}
               data={clickedData}
-              roomId={Object.keys(actionBtns).find(
+              spaceId={Object.keys(actionBtns).find(
                 (key) => actionBtns[key] === true
               )}
               status={

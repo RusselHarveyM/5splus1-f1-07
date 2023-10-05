@@ -8,7 +8,7 @@ import Overlay from "../../UI/Modal/SpaceOverlay";
 import action from "../../../static/images/link.png";
 import deleteIcon from "../../../static/images/delete.png";
 import editIcon from "../../../static/images/edit.png";
-import addIcon from "../../../static/images/add-building-2.png";
+import addIcon from "../../../static/images/add.png";
 import moreIcon from "../../../static/images/more.png";
 
 const SpaceContent = () => {
@@ -31,12 +31,18 @@ const SpaceContent = () => {
   const ActionBtnHandler = useCallback(
     async (rowId, data) => {
       setClickedData(data);
-      await axios
-        .get(`https://localhost:7124/api/spaceimage/get/${rowId}`)
-        .then((data) => {
-          console.log("image data", data);
-          setImages(data);
-        });
+      try {
+        await axios
+          .get(`https://localhost:7124/api/spaceimage/get/${rowId}`)
+          .then((data) => {
+            console.log("image data", data);
+            setImages(data);
+          });
+      } catch (error) {
+        console.log(error);
+        setImages([]);
+      }
+
       setActionBtns((prevState) => ({
         ...Object.keys(prevState).reduce((acc, key) => {
           acc[key] = false;

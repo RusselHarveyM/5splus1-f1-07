@@ -111,7 +111,7 @@ const Overlay = (props) => {
         <div className={classes.editForm}>
           <label>Space Images</label>
           <div className={classes.spaceImageContainer}>
-            {imageData.data.map((data) => (
+            {imageData?.data?.map((data) => (
               <img
                 id="image"
                 src={`data:image/png;base64,${data.image}`}

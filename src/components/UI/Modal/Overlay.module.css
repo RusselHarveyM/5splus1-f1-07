@@ -49,7 +49,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80%;
+  width: 90%;
   gap: 20px;
 }
 
@@ -64,4 +64,19 @@
 
 .editPreview {
   width: 64px;
+}
+.spaceImageContainer {
+  display: grid;
+  background-color: #ffd95d;
+  padding: 10px;
+  border-radius: 10px;
+  grid-template-columns: repeat(4, 1fr); /* 3 columns */
+  grid-template-rows: repeat(auto, 1fr); /* 2 rows */
+  grid-gap: 10px; /* gap between grid items */
+}
+
+.spaceImageContainer img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }

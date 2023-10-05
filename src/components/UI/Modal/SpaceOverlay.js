@@ -1,11 +1,26 @@
 import Card from "../Card/Card";
 import classes from "./Overlay.module.css";
 import Button from "../Button/Button";
+import { useState, useCallback } from "react";
 
 const Overlay = (props) => {
-  const { status, data, spaceId, onUpdate, onConfirm, onDelete, onCreate } =
-    props;
+  const {
+    status,
+    data,
+    imageData,
+    spaceId,
+    onUpdate,
+    onAddImage,
+    onConfirm,
+    onDelete,
+    onCreate,
+  } = props;
   const { name = "", roomId = "" } = data || {};
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = useCallback((event) => {
+    setSelectedFile(event.target.files[0]);
+  }, []);
 
   const onEditHandler = (event) => {
     event.preventDefault();
@@ -19,6 +34,14 @@ const Overlay = (props) => {
 
   const onDeleteHandler = () => {
     onDelete(spaceId);
+    onConfirm();
+  };
+
+  const onAddImageHandler = async () => {
+    if (!selectedFile) {
+      throw new Error("File field is required.");
+    }
+    onAddImage(spaceId, selectedFile);
     onConfirm();
   };
 
@@ -79,6 +102,37 @@ const Overlay = (props) => {
             Add Space
           </Button>
         </form>
+      </Card>
+    );
+  }
+  if (status === "image") {
+    return (
+      <Card className={classes.editOverlay}>
+        <div className={classes.editForm}>
+          <label>Space Images</label>
+          <div className={classes.spaceImageContainer}>
+            {imageData.data.map((data) => (
+              <img
+                id="image"
+                src={`data:image/png;base64,${data.image}`}
+                alt="space preview"
+                className={classes.spaceImage}
+              />
+            ))}
+          </div>
+
+          <input
+            type="file"
+            name="file"
+            id="imageUpload"
+            accept="image/png, image/jpeg"
+            onChange={handleFileChange}
+          />
+
+          <Button onClick={onAddImageHandler} className={classes.addBtn}>
+            Add Image
+          </Button>
+        </div>
       </Card>
     );
   }

@@ -18,6 +18,8 @@ const SpaceContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
+  const [images, setImages] = useState([]);
+  const [isAddImage, setIsAddImage] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [refreshData, setRefreshData] = useState(false);
 
@@ -27,8 +29,14 @@ const SpaceContent = () => {
   }, []);
 
   const ActionBtnHandler = useCallback(
-    (rowId, data) => {
+    async (rowId, data) => {
       setClickedData(data);
+      await axios
+        .get(`https://localhost:7124/api/spaceimage/get/${rowId}`)
+        .then((data) => {
+          console.log("image data", data);
+          setImages(data);
+        });
       setActionBtns((prevState) => ({
         ...Object.keys(prevState).reduce((acc, key) => {
           acc[key] = false;
@@ -50,6 +58,24 @@ const SpaceContent = () => {
   const deleteSpace = useCallback(async (id) => {
     try {
       await axios.delete(`https://localhost:7124/api/space/${id}`);
+      setRefreshData(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const addSpaceImage = useCallback(async (id, file) => {
+    console.log("id >> ", id);
+    console.log("data >> ", file);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      await axios.post(
+        `https://localhost:7124/api/spaceimage/upload/${id}`,
+        formData
+      );
+
       setRefreshData(true);
     } catch (error) {
       console.log(error);
@@ -92,11 +118,17 @@ const SpaceContent = () => {
     setIsEdit(true);
   }, []);
 
+  const onAddImage = useCallback(() => {
+    setIsModalOpen(true);
+    setIsAddImage(true);
+  }, []);
+
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
     setIsDelete(false);
     setIsEdit(false);
     setIsAdd(false);
+    setIsAddImage(false);
     setActionBtns({});
   }, []);
 
@@ -133,7 +165,7 @@ const SpaceContent = () => {
                 <button onClick={onDeleteSpace}>
                   <img src={deleteIcon} alt="deleteIcon" />
                 </button>
-                <button onClick={""}>
+                <button onClick={onAddImage}>
                   <img src={moreIcon} alt="moreIcon" />
                 </button>
               </div>
@@ -142,7 +174,7 @@ const SpaceContent = () => {
         ),
       },
     ],
-    [actionBtns, ActionBtnHandler, onDeleteSpace, onEditSpace]
+    [actionBtns, ActionBtnHandler, onDeleteSpace, onEditSpace, onAddImage]
   );
 
   return (
@@ -157,8 +189,10 @@ const SpaceContent = () => {
             <Overlay
               onDelete={deleteSpace}
               onUpdate={updateSpace}
+              onAddImage={addSpaceImage}
               onConfirm={closeModal}
               onCreate={addSpace}
+              imageData={images}
               data={clickedData}
               spaceId={Object.keys(actionBtns).find(
                 (key) => actionBtns[key] === true
@@ -166,7 +200,8 @@ const SpaceContent = () => {
               status={
                 `${isDelete ? "delete" : ""}` ||
                 `${isEdit ? "edit" : ""}` ||
-                `${isAdd ? "create" : ""}`
+                `${isAdd ? "create" : ""}` ||
+                `${isAddImage ? "image" : ""}`
               }
             />,
             document.getElementById("overlay-root")

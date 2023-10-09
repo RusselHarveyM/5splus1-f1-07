@@ -4,6 +4,7 @@ import UserContent from "./userContent/UserContent";
 import BuildingContent from "./buildingContent/BuildingContent";
 import RoomContent from "./roomContent/RoomContent";
 import SpaceContent from "./spaceContent/SpaceContent";
+import ArchiveContent from "./5sContent/ArchiveContent";
 
 const initialState = {
   usersContent: true,
@@ -84,7 +85,7 @@ const Manage = ({ onData }) => {
         {state.buildingContent ? <BuildingContent onData={onData} /> : ""}
         {state.roomContent ? <RoomContent onData={onData} /> : ""}
         {state.spaceContent ? <SpaceContent /> : ""}
-        {state._5sContent ? "5s Archive" : ""}
+        {state._5sContent ? <ArchiveContent /> : ""}
       </main>
     </>
   );

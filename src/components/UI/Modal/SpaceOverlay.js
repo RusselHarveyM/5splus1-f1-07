@@ -113,6 +113,7 @@ const Overlay = (props) => {
           <div className={classes.spaceImageContainer}>
             {imageData?.data?.map((data) => (
               <img
+                key={data.lastModifiedDate}
                 id="image"
                 src={`data:image/png;base64,${data.image}`}
                 alt="space preview"

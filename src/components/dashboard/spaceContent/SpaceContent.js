@@ -35,7 +35,6 @@ const SpaceContent = () => {
         await axios
           .get(`https://localhost:7124/api/spaceimage/get/${rowId}`)
           .then((data) => {
-            console.log("image data", data);
             setImages(data);
           });
       } catch (error) {
@@ -71,9 +70,6 @@ const SpaceContent = () => {
   }, []);
 
   const addSpaceImage = useCallback(async (id, file) => {
-    console.log("id >> ", id);
-    console.log("data >> ", file);
-
     try {
       const formData = new FormData();
       formData.append("file", file);

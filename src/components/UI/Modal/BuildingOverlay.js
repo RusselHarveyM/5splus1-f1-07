@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 import { useState, useMemo } from "react";
 
 const BuildingOverlay = (props) => {
-  const { status, data, buildingId, onUpdate, onConfirm, onDelete, onCreate } =
+  const { status, data, contentId, onUpdate, onConfirm, onDelete, onCreate } =
     props;
   const { buildingName = "", buildingCode = "" } = data || {};
   const [image, setImage] = useState(data?.image || null);
@@ -41,7 +41,7 @@ const BuildingOverlay = (props) => {
       buildingCode: event.target[1].value,
       image: image,
     };
-    onUpdate(buildingId, data);
+    onUpdate(contentId, data);
     onConfirm();
   };
 

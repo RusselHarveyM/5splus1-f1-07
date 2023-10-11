@@ -3,6 +3,7 @@ import Content from "../Content";
 
 import { useState } from "react";
 import addIcon from "../../../static/images/add-room.png";
+import Overlay from "../../UI/Modal/RoomOverlay";
 
 const RoomContent = ({ onData }) => {
   const urls = `https://localhost:7124/api/rooms/`;
@@ -21,6 +22,8 @@ const RoomContent = ({ onData }) => {
       url={urls}
       title={"Rooms"}
       addIcon={addIcon}
+      isMore={false}
+      Overlay={Overlay}
     />
   );
 };

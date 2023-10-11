@@ -5,12 +5,12 @@ import PropTypes from "prop-types";
 import Table from "../UI/table/Table";
 import classes from "./Content.module.css";
 import Backdrop from "../UI/Modal/BackdropModal";
-import Overlay from "../UI/Modal/BuildingOverlay";
 import action from "../../static/images/link.png";
 import deleteIcon from "../../static/images/delete.png";
 import editIcon from "../../static/images/edit.png";
+import moreIcon from "../../static/images/more.png";
 
-const Content = ({ url, headers, onData, title, addIcon }) => {
+const Content = ({ url, headers, onData, title, addIcon, isMore, Overlay }) => {
   const [contentData, setContentData] = useState([]);
   const [clickedData, setClickedData] = useState();
   const [actionBtns, setActionBtns] = useState({});
@@ -18,6 +18,8 @@ const Content = ({ url, headers, onData, title, addIcon }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [images, setImages] = useState([]);
+  const [isAddImage, setIsAddImage] = useState(false);
   const [refreshData, setRefreshData] = useState(false);
 
   const fetchContent = useCallback(async () => {
@@ -26,14 +28,29 @@ const Content = ({ url, headers, onData, title, addIcon }) => {
   }, [url]);
 
   const ActionBtnHandler = useCallback(
-    (rowId, data) => {
+    async (rowId, data) => {
       setClickedData(data);
+      if (isMore) {
+        try {
+          await axios
+            .get(`https://localhost:7124/api/spaceimage/get/${rowId}`)
+            .then((data) => {
+              setImages(data);
+            });
+        } catch (error) {
+          console.log(error);
+          setImages([]);
+        }
+      }
       setActionBtns((prevState) => ({
-        ...prevState,
+        ...Object.keys(prevState).reduce((acc, key) => {
+          acc[key] = false;
+          return acc;
+        }, {}),
         [rowId]: !prevState[rowId],
       }));
     },
-    [setActionBtns]
+    [setActionBtns, isMore]
   );
 
   useEffect(() => {
@@ -81,6 +98,11 @@ const Content = ({ url, headers, onData, title, addIcon }) => {
     },
     [url, refreshData]
   );
+
+  const onAddImage = useCallback(() => {
+    setIsModalOpen(true);
+    setIsAddImage(true);
+  }, []);
 
   const onDeleteContent = useCallback(() => {
     setIsModalOpen(true);
@@ -131,13 +153,26 @@ const Content = ({ url, headers, onData, title, addIcon }) => {
                 <button onClick={onDeleteContent}>
                   <img src={deleteIcon} alt="deleteIcon" />
                 </button>
+                {isMore && (
+                  <button onClick={onAddImage}>
+                    <img src={moreIcon} alt="moreIcon" />
+                  </button>
+                )}
               </div>
             )}
           </div>
         ),
       },
     ],
-    [actionBtns, ActionBtnHandler, onDeleteContent, onEditContent, headers]
+    [
+      actionBtns,
+      ActionBtnHandler,
+      onDeleteContent,
+      onEditContent,
+      onAddImage,
+      headers,
+      isMore,
+    ]
   );
 
   return (
@@ -154,6 +189,7 @@ const Content = ({ url, headers, onData, title, addIcon }) => {
               onUpdate={updateContent}
               onConfirm={closeModal}
               onCreate={addContent}
+              imageData={images}
               data={clickedData}
               contentId={Object.keys(actionBtns).find(
                 (key) => actionBtns[key] === true
@@ -161,7 +197,8 @@ const Content = ({ url, headers, onData, title, addIcon }) => {
               status={
                 `${isDelete ? "delete" : ""}` ||
                 `${isEdit ? "edit" : ""}` ||
-                `${isAdd ? "create" : ""}`
+                `${isAdd ? "create" : ""}` ||
+                `${isAddImage ? "image" : ""}`
               }
             />,
             document.getElementById("overlay-root")

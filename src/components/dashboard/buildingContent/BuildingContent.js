@@ -1,9 +1,10 @@
 import Content from "../Content";
 import { useState } from "react";
 import addIcon from "../../../static/images/add-building-2.png";
+import Overlay from "../../UI/Modal/BuildingOverlay";
 
 const BuildingContent = ({ onData }) => {
-  const urls = `https://localhost:7124/api/buildings`;
+  const urls = `https://localhost:7124/api/buildings/`;
 
   const [buildingHeaders] = useState([
     { Header: "Id", accessor: "id" },
@@ -18,6 +19,8 @@ const BuildingContent = ({ onData }) => {
       url={urls}
       title={"Buildings"}
       addIcon={addIcon}
+      isMore={false}
+      Overlay={Overlay}
     />
   );
 };

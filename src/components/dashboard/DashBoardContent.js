@@ -46,7 +46,7 @@ const DashBoardContent = () => {
         </div>
         <div className={classes.buildingList}>
           {buildingCtx.buildingData.map((building) => (
-            <NavLink key={building.id}>
+            <NavLink key={building.id} to={`/${building.id}/rooms`}>
               <Card className={classes.buildingCards} key={building.id}>
                 <div className={classes.buildingImageContainer}>
                   <img

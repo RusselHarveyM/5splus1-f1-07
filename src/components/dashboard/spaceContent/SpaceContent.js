@@ -7,7 +7,7 @@ import Overlay from "../../UI/Modal/SpaceOverlay";
 const SpaceContent = () => {
   const urls = `https://localhost:7124/api/space/`;
 
-  const [buildingHeaders] = useState([
+  const [spaceHeaders] = useState([
     { Header: "Id", accessor: "id" },
     { Header: "Room Id", accessor: "roomId" },
     { Header: "Name", accessor: "name" },
@@ -15,12 +15,13 @@ const SpaceContent = () => {
 
   return (
     <Content
-      headers={buildingHeaders}
+      headers={spaceHeaders}
       onData={() => {}}
       url={urls}
       title={"Spaces"}
       addIcon={addIcon}
       isMore={true}
+      isFilter={false}
       Overlay={Overlay}
     />
   );

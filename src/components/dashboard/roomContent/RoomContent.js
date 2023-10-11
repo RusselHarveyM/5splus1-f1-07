@@ -8,7 +8,7 @@ import Overlay from "../../UI/Modal/RoomOverlay";
 const RoomContent = ({ onData }) => {
   const urls = `https://localhost:7124/api/rooms/`;
 
-  const [buildingHeaders] = useState([
+  const [roomHeaders] = useState([
     { Header: "Id", accessor: "id" },
     { Header: "Building Id", accessor: "buildingId" },
     { Header: "Room name", accessor: "roomNumber" },
@@ -17,12 +17,13 @@ const RoomContent = ({ onData }) => {
 
   return (
     <Content
-      headers={buildingHeaders}
+      headers={roomHeaders}
       onData={onData}
       url={urls}
       title={"Rooms"}
       addIcon={addIcon}
       isMore={false}
+      isFilter={false}
       Overlay={Overlay}
     />
   );

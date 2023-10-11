@@ -3,7 +3,7 @@ import classes from "./Overlay.module.css";
 import Button from "../Button/Button";
 
 const Overlay = (props) => {
-  const { status, data, userId, onUpdate, onConfirm, onDelete, onCreate } =
+  const { status, data, contentId, onUpdate, onConfirm, onDelete, onCreate } =
     props;
   const { firstName, lastName, role, username, password } = data || {};
 
@@ -16,12 +16,12 @@ const Overlay = (props) => {
       username,
       password,
     };
-    onUpdate(userId, data);
+    onUpdate(contentId, data);
     onConfirm();
   };
 
   const onDeleteHandler = () => {
-    onDelete(userId);
+    onDelete(contentId);
     onConfirm();
   };
 

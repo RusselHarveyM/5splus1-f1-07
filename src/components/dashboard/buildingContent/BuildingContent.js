@@ -20,6 +20,7 @@ const BuildingContent = ({ onData }) => {
       title={"Buildings"}
       addIcon={addIcon}
       isMore={false}
+      isFilter={false}
       Overlay={Overlay}
     />
   );

@@ -9,12 +9,23 @@ import action from "../../static/images/link.png";
 import deleteIcon from "../../static/images/delete.png";
 import editIcon from "../../static/images/edit.png";
 import moreIcon from "../../static/images/more.png";
+import GlobalFilter from "../GlobalFilter";
 
-const Content = ({ url, headers, onData, title, addIcon, isMore, Overlay }) => {
+const Content = ({
+  url,
+  headers,
+  onData,
+  title,
+  addIcon,
+  isMore,
+  Overlay,
+  isFilter,
+}) => {
   const [contentData, setContentData] = useState([]);
   const [clickedData, setClickedData] = useState();
   const [actionBtns, setActionBtns] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filter, setFilter] = useState({ filter: "default", setFil: () => {} });
   const [isEdit, setIsEdit] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -75,6 +86,7 @@ const Content = ({ url, headers, onData, title, addIcon, isMore, Overlay }) => {
 
   const updateContent = useCallback(
     async (id, data) => {
+      console.log("id >>> ", id);
       try {
         await axios.put(url + id, {
           ...data,
@@ -175,6 +187,10 @@ const Content = ({ url, headers, onData, title, addIcon, isMore, Overlay }) => {
     ]
   );
 
+  const filterHandler = (fil, setFil) => {
+    setFilter({ filter: fil, setFil: setFil });
+  };
+
   return (
     <div className={classes.tableContainer}>
       {isModalOpen && (
@@ -212,8 +228,16 @@ const Content = ({ url, headers, onData, title, addIcon, isMore, Overlay }) => {
             <img src={addIcon} alt="addIcon" />
           </button>
         </div>
+        {isFilter && (
+          <GlobalFilter filter={filter.filter} setFilter={filter.setFil} />
+        )}
       </header>
-      <Table columns={columnDefinition} data={contentData} />
+      <Table
+        columns={columnDefinition}
+        data={contentData}
+        filter={filter.filter}
+        filterHandler={filterHandler}
+      />
     </div>
   );
 };

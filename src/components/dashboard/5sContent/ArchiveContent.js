@@ -26,7 +26,8 @@ const ArchiveContent = () => {
       title={"Archive"}
       addIcon={addIcon}
       isMore={false}
-      isFilter={true}
+      isAddBtn={false}
+      isFilter={false}
       Overlay={Overlay}
     />
   );

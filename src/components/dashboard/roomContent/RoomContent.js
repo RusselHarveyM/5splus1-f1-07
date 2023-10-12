@@ -23,6 +23,7 @@ const RoomContent = ({ onData }) => {
       title={"Rooms"}
       addIcon={addIcon}
       isMore={false}
+      isAddBtn={true}
       isFilter={false}
       Overlay={Overlay}
     />

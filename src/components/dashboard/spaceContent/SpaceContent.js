@@ -21,6 +21,7 @@ const SpaceContent = () => {
       title={"Spaces"}
       addIcon={addIcon}
       isMore={true}
+      isAddBtn={true}
       isFilter={false}
       Overlay={Overlay}
     />

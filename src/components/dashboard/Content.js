@@ -18,6 +18,7 @@ const Content = ({
   title,
   addIcon,
   isMore,
+  isAddBtn,
   Overlay,
   isFilter,
 }) => {
@@ -224,9 +225,11 @@ const Content = ({
       <header className={classes.tableHeader}>
         <div className={classes.createEntity}>
           <h1>{title}</h1>
-          <button onClick={onAddContent} className={classes.addBtn}>
-            <img src={addIcon} alt="addIcon" />
-          </button>
+          {isAddBtn && (
+            <button onClick={onAddContent} className={classes.addBtn}>
+              <img src={addIcon} alt="addIcon" />
+            </button>
+          )}
         </div>
         {isFilter && (
           <GlobalFilter filter={filter.filter} setFilter={filter.setFil} />

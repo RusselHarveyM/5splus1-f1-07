@@ -22,6 +22,7 @@ const UserContent = () => {
       url={urls}
       title={"Users"}
       addIcon={addIcon}
+      isAddBtn={true}
       isMore={false}
       isFilter={true}
       Overlay={Overlay}

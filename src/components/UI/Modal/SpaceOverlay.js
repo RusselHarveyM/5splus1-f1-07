@@ -1,7 +1,8 @@
 import Card from "../Card/Card";
 import classes from "./Overlay.module.css";
 import Button from "../Button/Button";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import axios from "axios";
 
 const Overlay = (props) => {
   const {
@@ -17,9 +18,23 @@ const Overlay = (props) => {
   } = props;
   const { name = "", roomId = "" } = data || {};
   const [selectedFile, setSelectedFile] = useState(null);
+  const [rooms, setRooms] = useState([]);
 
   const handleFileChange = useCallback((event) => {
     setSelectedFile(event.target.files[0]);
+  }, []);
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        await axios.get(`https://localhost:7124/api/rooms`).then((data) => {
+          setRooms(data.data);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRooms();
   }, []);
 
   const onEditHandler = (event) => {
@@ -67,12 +82,11 @@ const Overlay = (props) => {
             defaultValue={name}
           />
           <label>Room Id</label>
-          <input
-            className={classes.search}
-            type="text"
-            id="roomId"
-            defaultValue={roomId}
-          />
+          <select className={classes.select} id="roomId">
+            {rooms?.map((room) => (
+              <option value={room.id}>{room.roomNumber}</option>
+            ))}
+          </select>
           <Button type="submit" className={classes.editBtn}>
             Update
           </Button>
@@ -97,7 +111,11 @@ const Overlay = (props) => {
           <label>Space Name</label>
           <input className={classes.search} type="text" id="spaceName" />
           <label>Room Id</label>
-          <input className={classes.search} type="text" id="roomId" />
+          <select className={classes.select} id="roomId">
+            {rooms?.map((room) => (
+              <option value={room.id}>{room.roomNumber}</option>
+            ))}
+          </select>
           <Button type="submit" className={classes.addBtn}>
             Add Space
           </Button>

@@ -80,7 +80,11 @@ const Room = () => {
           onData={spaces.filter((space) => space.id == spaceId)}
         />
       </div>
-      <div className={classes.roomContainer_ratings}></div>
+      <div className={classes.roomContainer_ratings}>
+        <div className={classes.roomContainer_ratings_rating}></div>
+        <h1>5S+ Rating</h1>
+        <Card className={classes.roomContainer_ratings_comments}></Card>
+      </div>
       <div className={classes.roomContainer_redTags}></div>
     </div>
   );

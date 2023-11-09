@@ -83,3 +83,22 @@
 .spaceNavigation_list button:hover {
   color: #731c23;
 }
+
+.roomContainer_ratings {
+  margin: 0 auto;
+  display: flex;
+}
+
+.roomContainer_ratings_rating {
+  width: 250px;
+  height: 250px;
+  background-color: #4ed54e;
+  border-radius: 100%;
+}
+
+.roomContainer_ratings_comments {
+  width: 500px;
+  height: 300px;
+  box-shadow: none;
+  background-color: #fff;
+}

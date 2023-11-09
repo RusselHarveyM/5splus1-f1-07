@@ -29,6 +29,7 @@
 .spaceTitle_buttons * {
   border: none;
   background-color: #fff;
+  cursor: pointer;
   padding: 3px 8px;
   font-size: 0.72rem;
   border-radius: 5px;
@@ -51,6 +52,7 @@
   background-color: #ffd95d;
   width: 130px;
   height: 130px;
+  box-shadow: none;
 }
 
 .spaceScore {

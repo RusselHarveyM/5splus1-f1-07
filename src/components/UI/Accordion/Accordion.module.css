@@ -4,6 +4,7 @@
   box-shadow: none;
   background-color: none;
 }
+
 .accordionContainer_item {
   cursor: pointer;
   display: flex;
@@ -16,8 +17,4 @@
   border-radius: 10px;
   background-color: #fff;
   padding: 5px 10px;
-}
-
-.accordionContainer_comments {
-  transition: 1s;
 }

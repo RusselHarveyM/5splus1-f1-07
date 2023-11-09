@@ -11,6 +11,8 @@ const Room = () => {
   const [roomData, setRoomData] = useState();
   const [spaces, setSpaces] = useState([]);
   const [spaceId, setSpaceId] = useState();
+  const [overallRating, setOverallRating] = useState(0.0);
+  const [remark, setRemark] = useState("NOT CALIBRATED");
   const params = useParams();
 
   console.log(params);
@@ -82,7 +84,10 @@ const Room = () => {
         />
       </div>
       <div className={classes.roomContainer_ratings}>
-        <div className={classes.roomContainer_ratings_rating}></div>
+        <div className={classes.roomContainer_ratings_rating}>
+          <h1>{overallRating}</h1>
+          <h3>{remark}</h3>
+        </div>
         <h1>5S+ Rating</h1>
         <Accordion />
       </div>

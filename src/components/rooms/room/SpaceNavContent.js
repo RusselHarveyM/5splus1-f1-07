@@ -1,10 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./SpaceNavContent.module.css";
 import Card from "../../UI/Card/Card";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import OpenAI from "openai";
+import dotenv from 'dotenv'
+
+dotenv.config();
+const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
+async function evaluate(base64url) {
+  
+  const response = await openai.chat.completions.create({
+    model: "gpt-4-vision-preview",
+    messages: [
+      {
+        role: "user",
+        content: [
+          { type: "text", text: "for the first four S in the 5s methodology rate the image from 1-10, answer only in short sentences." },
+          {
+            type: "image_url",
+            image_url: {
+              "url": base64url
+            },
+          },
+        ],
+      },
+    ],
+    max_tokens: 300
+  });
+  console.log(JSON.stringify(response));
+  return JSON.stringify(response);
+}
+
 
 const SpaceNavContent = (props) => {
   const [spaceTotalScore, setSpaceTotalScore] = useState(10);
+  const params = useParams();
+  const [spaceData, setSpaceData] = useState();
+  useEffect(() => {
+    const fetchSpaceData = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:7124/api/spaceimage/get/${params.spaceId}`
+        );
+        setSpaceData(response.data);
+        console.log("response space data >>>>> ", response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSpaceData();
+  }, [params.spaceId]);
+  // console.log("Imagecode >>>", spaceData[0].image)
 
+  console.log(evaluate("data:image/png;base64,"+spaceData[0].image))
   console.log("props {}{}{{}", props);
   return (
     <Card className={classes.spaceNavigation_content}>

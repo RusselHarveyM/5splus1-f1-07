@@ -13,19 +13,20 @@ const SpaceNavContent = (props) => {
     const fetchSpaceData = async () => {
       try {
         const response = await axios.get(
-          `https://localhost:7124/api/spaceimage/get/${params.spaceId}`
+          `https://localhost:7124/api/spaceimage/get/${props.onData[0]?.id}`
         );
         setSpaceData(response.data);
-        console.log("response space data >>>>> ", response.data);
+        console.log("response space data12 >>>>> ", response.data);
+        evaluate("data:image/png;base64," + response.data[0].image);
       } catch (error) {
         console.log(error);
       }
     };
     fetchSpaceData();
-  }, [params.spaceId]);
-  // console.log("Imagecode >>>", spaceData[0].image)
+  }, [props.onData[0]?.id]);
+  // console.log("params.spaceId >>>", props.onData);
 
-  // console.log(evaluate("data:image/png;base64,"+spaceData[0].image))
+  // console.log();
   console.log("props {}{}{{}", props);
   return (
     <Card className={classes.spaceNavigation_content}>

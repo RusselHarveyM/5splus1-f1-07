@@ -106,7 +106,8 @@
   width: 220px;
   height: 220px;
   padding-bottom: 1.2rem;
-  background-color: #66ce41;
+  /* background-color: #66ce41; */
+  background-color: #a3a3a3;
   border-radius: 100%;
 }
 

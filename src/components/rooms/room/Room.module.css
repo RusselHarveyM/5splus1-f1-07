@@ -92,6 +92,10 @@
   gap: 1rem;
 }
 
+.roomContainer_ratings h1 {
+  color: #731c23;
+}
+
 .roomContainer_ratings_rating {
   width: 250px;
   height: 250px;

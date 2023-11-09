@@ -5,7 +5,10 @@ import Content from "../Content";
 import Overlay from "../../UI/Modal/SpaceOverlay";
 
 const SpaceContent = () => {
-  const urls = `https://localhost:7124/api/space/`;
+  const urls = [
+    `https://localhost:7124/api/space/`,
+    `https://localhost:7124/api/spaceimage/upload/`,
+  ];
 
   const [spaceHeaders] = useState([
     { Header: "Id", accessor: "id" },

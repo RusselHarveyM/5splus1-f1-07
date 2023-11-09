@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Card from "../components/UI/Card/Card";
 import axios from "axios";
 import classes from "../components/rooms/Rooms.module.css";
+import { NavLink } from "react-router-dom";
 
 const Rooms = () => {
   const [roomData, setRoomData] = useState([]);
@@ -53,7 +54,7 @@ const Rooms = () => {
         <img
           src={`data:image/png;base64,${buildingData.image}`}
           alt="Building preview"
-        ></img>
+        />
         <div className={classes.roomsContainer_header_title}>
           <h3>{buildingData.buildingName}</h3>
           <h4>{roomData.length} rooms</h4>
@@ -61,15 +62,17 @@ const Rooms = () => {
       </div>
       <div className={classes.roomsContainer_lists}>
         {roomData?.map((room) => (
-          <Card className={classes.roomsContainer_cards} key={room.id}>
-            <img
-              src={`data:image/png;base64,${room.image}`}
-              alt="Building preview"
-            ></img>
-            <div className={classes.roomsContainer_cards_title}>
-              <h4>{room.roomNumber}</h4>
-            </div>
-          </Card>
+          <NavLink key={room.id} to={`/${room.id}`}>
+            <Card className={classes.roomsContainer_cards} key={room.id}>
+              <img
+                src={`data:image/png;base64,${room.image}`}
+                alt="room preview"
+              />
+              <div className={classes.roomsContainer_cards_title}>
+                <h4>{room.roomNumber}</h4>
+              </div>
+            </Card>
+          </NavLink>
         ))}
       </div>
     </div>

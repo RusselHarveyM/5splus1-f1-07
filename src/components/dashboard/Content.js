@@ -35,9 +35,23 @@ const Content = ({
   const [refreshData, setRefreshData] = useState(false);
 
   const fetchContent = useCallback(async () => {
-    const response = await axios.get(url);
+    const response = await axios.get(url[0]);
     return response.data;
   }, [url]);
+
+  const addSpaceImage = useCallback(
+    async (id, file) => {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        await axios.post(url[1] + id, formData);
+        setRefreshData(true);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [url]
+  );
 
   const ActionBtnHandler = useCallback(
     async (rowId, data) => {
@@ -48,6 +62,7 @@ const Content = ({
             .get(`https://localhost:7124/api/spaceimage/get/${rowId}`)
             .then((data) => {
               setImages(data);
+              console.log(data);
             });
         } catch (error) {
           console.log(error);
@@ -76,7 +91,7 @@ const Content = ({
   const deleteContent = useCallback(
     async (name) => {
       try {
-        await axios.delete(url + name);
+        await axios.delete(url[0] + name);
         setRefreshData(true);
       } catch (error) {
         console.log(error);
@@ -89,7 +104,7 @@ const Content = ({
     async (id, data) => {
       console.log("id >>> ", id);
       try {
-        await axios.put(url + id, {
+        await axios.put(url[0] + id, {
           ...data,
         });
         setRefreshData(!refreshData);
@@ -103,7 +118,7 @@ const Content = ({
   const addContent = useCallback(
     async (data) => {
       try {
-        await axios.post(url, { ...data });
+        await axios.post(url[0], { ...data });
         setRefreshData(!refreshData);
       } catch (error) {
         console.log(error);
@@ -208,6 +223,7 @@ const Content = ({
               onCreate={addContent}
               imageData={images}
               data={clickedData}
+              onAddImage={addSpaceImage}
               contentId={Object.keys(actionBtns).find(
                 (key) => actionBtns[key] === true
               )}

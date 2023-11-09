@@ -28,12 +28,12 @@ const Overlay = (props) => {
       name: event.target[0].value,
       roomId: event.target[1].value,
     };
-    onUpdate(spaceId, data);
+    onUpdate(data.id, data);
     onConfirm();
   };
 
   const onDeleteHandler = () => {
-    onDelete(spaceId);
+    onDelete(data.id);
     onConfirm();
   };
 
@@ -41,7 +41,7 @@ const Overlay = (props) => {
     if (!selectedFile) {
       throw new Error("File field is required.");
     }
-    onAddImage(spaceId, selectedFile);
+    onAddImage(data.id, selectedFile);
     onConfirm();
   };
 
@@ -113,7 +113,7 @@ const Overlay = (props) => {
           <div className={classes.spaceImageContainer}>
             {imageData?.data?.map((data) => (
               <img
-                key={data.lastModifiedDate}
+                key={data.id}
                 id="image"
                 src={`data:image/png;base64,${data.image}`}
                 alt="space preview"

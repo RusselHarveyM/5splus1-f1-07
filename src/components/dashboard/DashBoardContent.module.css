@@ -98,18 +98,21 @@
   color: #8c242c;
 }
 
-.buildingCard {
+/* .buildingCard {
   height: 300px;
   width: 450px;
-}
+} */
 
 .buildingImageContainer {
-  height: 100%;
+  /* height: 80%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .buildingImageContainer img {
-  width: 100%;
-  height: 100%;
+  width: 180px;
+  height: 140px;
   border-radius: 10px 10px 0 0;
 }
 

@@ -1,0 +1,61 @@
+.spaceNavigation_content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  width: 700px;
+  height: 500px;
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.spaceTitle {
+  display: flex;
+  padding: 20px 3rem 20px 3rem;
+  color: #731c23;
+  font-size: 0.85rem;
+  align-items: center;
+  background-color: #ffd95d;
+  width: inherit;
+  border-radius: 10px;
+  height: 4.2rem;
+  justify-content: space-between;
+}
+
+.spaceTitle_buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.spaceTitle_buttons * {
+  border: none;
+  background-color: #fff;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  border-radius: 5px;
+  color: #731c23;
+}
+
+.spaceBody {
+  display: grid;
+
+  padding: 1rem;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(3, 140px);
+  grid-template-rows: 140px 140px;
+  column-gap: 3rem;
+  row-gap: 3rem;
+}
+
+.spaceBody * {
+  background-color: #ffd95d;
+  width: 130px;
+  height: 130px;
+}
+
+.spaceScore {
+  background-color: #fff;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  padding: 2px 5px;
+}

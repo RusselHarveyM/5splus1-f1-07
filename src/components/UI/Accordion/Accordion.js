@@ -169,19 +169,7 @@ const Accordion = () => {
             Occaecat officia voluptate reprehenderit aliqua ut Lorem proident
             anim. Et sit occaecat esse est officia enim magna velit culpa. Dolor
             mollit duis ullamco non fugiat exercitation cillum. Ad elit laboris
-            excepteur nulla ipsum incididunt sint labore elit velit. Labore
-            irure excepteur culpa consectetur laborum ipsum Lorem. Duis ipsum
-            aliqua tempor anim enim ut Lorem non anim Lorem ullamco. Occaecat ut
-            ex proident et cillum ea incididunt id reprehenderit officia id
-            cillum. Et ex mollit anim fugiat irure ut commodo velit
-            reprehenderit. Quis commodo do ut exercitation velit nisi enim
-            ullamco esse reprehenderit. Dolore dolor do voluptate nostrud labore
-            eu. Veniam sunt qui velit amet aliquip. Laboris occaecat aute mollit
-            irure sit quis consectetur. Veniam amet laboris ullamco elit aliquip
-            magna. Cupidatat Lorem qui sunt id veniam proident ad anim ullamco
-            proident. Aliquip enim sunt pariatur ea esse consequat ad voluptate
-            ipsum quis nisi magna. Anim dolor incididunt sunt ullamco proident
-            ipsum anim. Consequat voluptate deserunt id aute voluptate.
+            excepteur nulla ipsum incididunt sint labore elit velit.
           </div>
         </div>
       ) : (

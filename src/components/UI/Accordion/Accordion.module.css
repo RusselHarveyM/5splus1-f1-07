@@ -2,7 +2,7 @@
   width: 500px;
   height: fit-content;
   box-shadow: none;
-  background-color: none;
+  background-color: inherit;
 }
 
 .accordionContainer_item {

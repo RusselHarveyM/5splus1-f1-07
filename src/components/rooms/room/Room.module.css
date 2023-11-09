@@ -87,6 +87,8 @@
 .roomContainer_ratings {
   margin: 0 auto;
   display: flex;
+  min-height: 350px;
+  max-height: 500px;
   justify-content: center;
   align-items: center;
   gap: 1rem;

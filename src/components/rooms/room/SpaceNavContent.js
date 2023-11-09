@@ -3,8 +3,7 @@ import classes from "./SpaceNavContent.module.css";
 import Card from "../../UI/Card/Card";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import evaluate from "./evaluate";
-
+import evaluate from "./evaluate.js";
 
 const SpaceNavContent = (props) => {
   const [spaceTotalScore, setSpaceTotalScore] = useState(10);
@@ -26,7 +25,7 @@ const SpaceNavContent = (props) => {
   }, [params.spaceId]);
   // console.log("Imagecode >>>", spaceData[0].image)
 
-  console.log(evaluate("data:image/png;base64,"+spaceData[0].image))
+  // console.log(evaluate("data:image/png;base64,"+spaceData[0].image))
   console.log("props {}{}{{}", props);
   return (
     <Card className={classes.spaceNavigation_content}>

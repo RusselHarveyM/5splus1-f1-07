@@ -1,9 +1,5 @@
 import OpenAI from "openai";
-// import dotenv from "dotenv";
-// require('dotenv').config()
-
-// dotenv.config();
-const openai = new OpenAI({apiKey: process.env.REACT_APP_OPENAI_API_KEY});
+const openai = new OpenAI({apiKey: "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" , dangerouslyAllowBrowser: true});
 async function evaluate(base64url) {
   
   const response = await openai.chat.completions.create({

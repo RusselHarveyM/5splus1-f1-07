@@ -1,15 +1,32 @@
 import Card from "../Card/Card";
 import classes from "./Overlay.module.css";
 import Button from "../Button/Button";
-import { useState, useMemo, useCallback, memo } from "react";
+import { useState, useMemo, useCallback, memo, useEffect } from "react";
+import axios from "axios";
 
 const Overlay = memo(
   ({ status, data, roomId, onUpdate, onConfirm, onDelete, onCreate }) => {
     const { buildingId = "", roomNumber = "" } = data || {};
+    const [buildings, setBuildings] = useState([]);
     const [image, setImage] = useState(
       useMemo(() => data?.image || null, [data])
     );
     const [newImage, setNewImage] = useState(null);
+
+    useEffect(() => {
+      const fetchBuildings = async () => {
+        try {
+          await axios
+            .get(`https://localhost:7124/api/buildings`)
+            .then((data) => {
+              setBuildings(data.data);
+            });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchBuildings();
+    }, []);
 
     const handleImageUpload = useCallback((event) => {
       const file = event.target.files[0];
@@ -73,12 +90,12 @@ const Overlay = memo(
         <Card className={classes.editOverlay}>
           <form onSubmit={onEditHandler} className={classes.editForm}>
             <label>Building Id</label>
-            <input
-              className={classes.search}
-              type="text"
-              id="buildingId"
-              defaultValue={buildingId}
-            />
+            <select className={classes.select} id="buildingId">
+              {buildings?.map((building) => (
+                <option value={building.id}>{building.buildingCode}</option>
+              ))}
+            </select>
+
             <label>Name</label>
             <input
               className={classes.search}
@@ -129,7 +146,11 @@ const Overlay = memo(
         <Card className={classes.editOverlay}>
           <form onSubmit={onAddHandler} className={classes.editForm}>
             <label>Building Id</label>
-            <input className={classes.search} type="text" id="buildingId" />
+            <select className={classes.select} id="buildingId">
+              {buildings?.map((building) => (
+                <option value={building.id}>{building.buildingCode}</option>
+              ))}
+            </select>
             <label>Name</label>
             <input className={classes.search} type="text" id="roomNumber" />
             <label>Status</label>

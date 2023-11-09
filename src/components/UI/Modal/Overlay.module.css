@@ -82,3 +82,12 @@
   width: 100%;
   object-fit: cover;
 }
+
+.select {
+  width: 100%;
+  border-radius: 10px;
+  height: 56px;
+  border: none;
+  padding: 2px 5px;
+  background-color: #efefef;
+}

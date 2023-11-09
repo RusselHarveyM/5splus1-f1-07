@@ -42,7 +42,6 @@ const DashBoardContent = () => {
               {buildingCtx.buildingData.length}
             </sup>
           </h2>
-          {/* <NavLink to={"buildings"}></NavLink> */}
         </div>
         <div className={classes.buildingList}>
           {buildingCtx.buildingData.map((building) => (

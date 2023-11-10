@@ -119,6 +119,8 @@ const Room = () => {
 
   const onSpaceNavHandler = (res) => {
     setSpaceId(res.target.id);
+    const space = spaces.filter((space) => space.id == res.target.id);
+    setSpace({ space: space[0], scores: space.scores });
   };
 
   return (
@@ -148,11 +150,11 @@ const Room = () => {
         <SpaceNavContent
           onData={
             space
-              ? space
-              : {
-                  space: spaces.filter((space) => space.id == spaceId)[0],
-                  scores: fiveS,
-                }
+            // ? space
+            // : {
+            //     space: spaces.filter((space) => space.id == spaceId)[0],
+            //     scores: fiveS,
+            //   }
           }
           onScoreHandler={onScoreHandler}
         />

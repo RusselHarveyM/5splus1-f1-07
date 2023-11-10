@@ -14,7 +14,7 @@ async function evaluate(base64url) {
         content: [
           {
             type: "text",
-            text: "for the first four S in the 5s methodology rate the image from 1-10, answer only in short sentences.",
+            text: "from 1-10 rate the images using first 4S in the 5s methodology, just respond with the score for each S and nothing else, then in another paragraph in short sentences explain how the score can be improved answer in a bullet format.",
           },
           {
             type: "image_url",
@@ -27,8 +27,8 @@ async function evaluate(base64url) {
     ],
     max_tokens: 300,
   });
-  console.log(JSON.stringify(response));
-  return JSON.stringify(response);
+  console.log(response.choices[0].message.content);
+  return response.choices[0].message.content;
 }
 
 export default evaluate;

@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import ReactDom from "react-dom";
 import classes from "./SpaceNavContent.module.css";
 import Card from "../../UI/Card/Card";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import evaluate from "./evaluate.js";
 
+import Backdrop from "../../UI/Modal/BackdropModal.js";
+import ViewImageOverlay from "../../UI/Modal/ViewImageOverlay.js";
+
 const SpaceNavContent = (props) => {
   const [spaceTotalScore, setSpaceTotalScore] = useState(10);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const params = useParams();
   const [spaceData, setSpaceData] = useState();
   useEffect(() => {
@@ -24,12 +30,29 @@ const SpaceNavContent = (props) => {
     };
     fetchSpaceData();
   }, [props.onData[0]?.id]);
-  // console.log("params.spaceId >>>", props.onData);
 
-  // console.log();
+  const onViewImageHandler = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
   console.log("props {}{}{{}", props);
   return (
     <Card className={classes.spaceNavigation_content}>
+      {isModalOpen && (
+        <>
+          {ReactDom.createPortal(
+            <Backdrop onConfirm={closeModal} />,
+            document.getElementById("backdrop-root")
+          )}
+          {ReactDom.createPortal(
+            <ViewImageOverlay spaceData={spaceData} />,
+            document.getElementById("overlay-root")
+          )}
+        </>
+      )}
       <header className={classes.spaceTitle}>
         <h2>
           {props.onData[0]?.name}
@@ -37,7 +60,7 @@ const SpaceNavContent = (props) => {
         </h2>
         <div className={classes.spaceTitle_buttons}>
           <button>Update Images</button>
-          <button>View Images</button>
+          <button onClick={onViewImageHandler}>View Images</button>
         </div>
       </header>
       <div className={classes.spaceBody}>

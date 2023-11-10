@@ -7,6 +7,7 @@ const ViewImageOverlay = ({ spaceData }) => {
 
   const onEvaluateHandler = useCallback(async () => {
     const images = spaceData.map((space) => space.image);
+    console.log(images);
     evaluate("data:image/png;base64," + images);
   }, []);
 

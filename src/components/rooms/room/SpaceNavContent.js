@@ -73,7 +73,7 @@ const SpaceNavContent = (props) => {
       <div className={classes.spaceBody}>
         <Card
           className={`${
-            props.onData?.scores?.sort?.score >= 8 ? classes.highlight : ""
+            props.onData?.scores?.sort >= 8 ? classes.highlight : ""
           }`}
         >
           <div className={classes.scoreTitle}>
@@ -81,12 +81,12 @@ const SpaceNavContent = (props) => {
           </div>
           {/* score here */}
           <h3>
-            {props.onData?.scores?.sort?.score}/{spaceTotalScore}
+            {props.onData?.scores?.sort}/{spaceTotalScore}
           </h3>
         </Card>
         <Card
           className={`${
-            props.onData?.scores?.sio?.score >= 8 ? classes.highlight : ""
+            props.onData?.scores?.setInOrder >= 8 ? classes.highlight : ""
           }`}
         >
           <div className={classes.scoreTitle}>
@@ -94,12 +94,12 @@ const SpaceNavContent = (props) => {
           </div>
           {/* score here */}
           <h3>
-            {props.onData?.scores?.sio?.score}/{spaceTotalScore}
+            {props.onData?.scores?.setInOrder}/{spaceTotalScore}
           </h3>
         </Card>
         <Card
           className={`${
-            props.onData?.scores?.shine?.score >= 8 ? classes.highlight : ""
+            props.onData?.scores?.shine >= 8 ? classes.highlight : ""
           }`}
         >
           <div className={classes.scoreTitle}>
@@ -107,14 +107,12 @@ const SpaceNavContent = (props) => {
           </div>
           {/* score here */}
           <h3>
-            {props.onData?.scores?.shine?.score}/{spaceTotalScore}
+            {props.onData?.scores?.shine}/{spaceTotalScore}
           </h3>
         </Card>
         <Card
           className={`${
-            props.onData?.scores?.standardize?.score >= 8
-              ? classes.highlight
-              : ""
+            props.onData?.scores?.standardize >= 8 ? classes.highlight : ""
           }`}
         >
           <div className={classes.scoreTitle}>
@@ -122,12 +120,12 @@ const SpaceNavContent = (props) => {
           </div>
           {/* score here */}
           <h3>
-            {props.onData?.scores?.standardize?.score}/{spaceTotalScore}
+            {props.onData?.scores?.standardize}/{spaceTotalScore}
           </h3>
         </Card>
         <Card
           className={`${
-            props.onData?.scores?.sustain?.score >= 8 ? classes.highlight : ""
+            props.onData?.scores?.sustain >= 8 ? classes.highlight : ""
           }`}
         >
           <div className={classes.scoreTitle}>
@@ -135,12 +133,12 @@ const SpaceNavContent = (props) => {
           </div>
           {/* score here */}
           <h3>
-            {props.onData?.scores?.sustain?.score}/{spaceTotalScore}
+            {props.onData?.scores?.sustain}/{spaceTotalScore}
           </h3>
         </Card>
         <Card
           className={`${
-            props.onData?.scores?.safety?.score >= 8 ? classes.highlight : ""
+            props.onData?.scores?.safety >= 8 ? classes.highlight : ""
           }`}
         >
           <div className={classes.scoreTitle}>

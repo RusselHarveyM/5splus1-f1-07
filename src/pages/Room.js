@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -6,7 +6,6 @@ import Card from "../components/UI/Card/Card";
 import classes from "../components/rooms/room/Room.module.css";
 import SpaceNavContent from "../components/rooms/room/SpaceNavContent";
 import Accordion from "../components/UI/Accordion/Accordion";
-import { set } from "date-fns";
 
 const Room = () => {
   const [roomData, setRoomData] = useState();
@@ -15,73 +14,63 @@ const Room = () => {
   const [spaceId, setSpaceId] = useState();
   const [overallRating, setOverallRating] = useState(0.0);
   const [remark, setRemark] = useState("NOT CALIBRATED");
-  const [fiveS, setFiveS] = useState({
-    sort: { score: "", comment: "" },
-    sio: { score: "", comment: "" },
-    shine: { score: "", comment: "" },
-    standardize: { score: "", comment: "" },
-    sustain: { score: "", comment: "" },
-  });
+
+  const [rate, setRate] = useState({});
 
   const params = useParams();
 
-  const onScoreHandler = (raw5s) => {
-    const newSpace = spaces.filter((space) => space.id == spaceId);
-
-    const newS = {
-      sort: { score: "", comment: "" },
-      sio: { score: "", comment: "" },
-      shine: { score: "", comment: "" },
-      standardize: { score: "", comment: "" },
-      sustain: { score: "", comment: "" },
+  const onScoreHandler = useCallback(async (raw5s) => {
+    const newRate = {
+      sort: 0,
+      setInOrder: 0,
+      shine: 0,
+      standarize: 0,
+      sustain: 0,
+      security: 0,
+      isActive: true,
+      spaceId: spaceId,
     };
     // Split the text into lines
     const lines = raw5s.split("\n");
-    // console.log(lines)
-    // Iterate through the lines and update the _5s dictionary
     let i = 0;
-    let k = ["Sort", "SIO", "Shine", "Standardize", "Sustain"];
+
     lines.forEach((line) => {
-      // Try to extract scores
-
-      if (i <= 3) {
-        const scoreMatch = line.match(/(\d+)/);
-        console.log(scoreMatch);
-        console.log("i:" + i);
-        // console.log("k:"+ k[i])
-        // _5s[k[i]].score = scoreMatch[i];
-        // i++
-
-        if (line.includes("Sort")) {
-          newS.sort.score = scoreMatch[i];
-          i++;
-        } else if (i === 1) {
-          newS.sio.score = scoreMatch[i];
-          i++;
-        } else if (i === 2) {
-          newS.shine.score = scoreMatch[i];
-          i++;
-        } else if (i === 3) {
-          let test = scoreMatch[i];
-          console.log(test);
-          newS.standardize.score = scoreMatch[i];
-          i++;
-        }
+      const match = line.match(/- (\w+) \(\w+\): (\d+)/);
+      if (match && i < 4) {
+        const property = match[1].toLowerCase();
+        const score = match[2];
+        const properties = ["sort", "setInOrder", "shine", "standarize"];
+        console.log("property:" + property);
+        console.log("score:" + score);
+        let props = properties[i];
+        newRate[props] = score;
+        i++;
       }
-      setSpace({ space: newSpace[0], scores: newS });
-      setFiveS(newS);
-      // if (line.startsWith('- ')) {
-      //       const comment = line.replace('- ', '');
-      //       for (const key in _5s) {
-      //           if (comment.includes(key)) {
-      //               _5s[key].comment = comment;
-      //           }
-      //       }
-      //   }
     });
-  };
-
-  console.log(params);
+    console.log("new rate", newRate);
+    setRate(newRate);
+    if (space.scores.length == 0) {
+      try {
+        const response = await axios.post(
+          "https://localhost:7124/api/ratings",
+          newRate
+        );
+        console.log("response rate", response);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const response = await axios.put(
+          `https://localhost:7124/api/ratings/${space.scores.id}`,
+          newRate
+        );
+        console.log("response rate update", response);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  });
 
   useEffect(() => {
     const fetchRoomData = async () => {
@@ -90,7 +79,6 @@ const Room = () => {
           `https://localhost:7124/api/rooms/${params.roomId}/room`
         );
         setRoomData(response.data);
-        console.log("response data >>>>> ", response.data);
       } catch (error) {
         console.log(error);
       }
@@ -102,7 +90,6 @@ const Room = () => {
     const fetchSpaces = async () => {
       try {
         const response = await axios.get(`https://localhost:7124/api/space`);
-        console.log("space response", response);
         setSpaces(() => {
           return response.data.filter((space) => space.roomId === roomData?.id);
         });
@@ -117,11 +104,29 @@ const Room = () => {
     window.history.back();
   };
 
-  const onSpaceNavHandler = (res) => {
-    setSpaceId(res.target.id);
-    const space = spaces.filter((space) => space.id == res.target.id);
-    setSpace({ space: space[0], scores: space.scores });
-  };
+  const onSpaceNavHandler = useCallback(
+    async (res) => {
+      setSpaceId(res.target.id);
+      const space = spaces.filter((space) => space.id == res.target.id);
+
+      try {
+        const response = await axios.get(`https://localhost:7124/api/ratings`);
+        console.log("response.data", response.data);
+        if (response.data.length > 0) {
+          const scores = response.data.filter(
+            (score) => score.spaceId == res.target.id
+          );
+          console.log("scores", scores);
+          setSpace({ space: space[0], scores: scores[0] });
+        } else {
+          setSpace({ space: space[0], scores: [] });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [space, spaces, spaceId]
+  );
 
   return (
     <div className={classes.roomContainer}>
@@ -147,17 +152,7 @@ const Room = () => {
             ))}
           </div>
         </Card>
-        <SpaceNavContent
-          onData={
-            space
-            // ? space
-            // : {
-            //     space: spaces.filter((space) => space.id == spaceId)[0],
-            //     scores: fiveS,
-            //   }
-          }
-          onScoreHandler={onScoreHandler}
-        />
+        <SpaceNavContent onData={space} onScoreHandler={onScoreHandler} />
       </div>
       <div className={classes.roomContainer_ratings}>
         <div className={classes.roomContainer_ratings_rating}>

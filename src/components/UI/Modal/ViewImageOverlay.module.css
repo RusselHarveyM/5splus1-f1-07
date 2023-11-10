@@ -18,7 +18,7 @@
 
 .imageContainer {
   display: grid;
-  grid-template-columns: repeat(4, 5rem);
+  grid-template-columns: repeat(5, 5rem);
   grid-template-rows: repeat(auto, 5rem);
   padding: 1rem;
   align-items: center;
@@ -34,4 +34,18 @@
   border-radius: 10px;
   width: 5rem;
   height: 5rem;
+}
+
+.container_header {
+  display: flex;
+  gap: 10px;
+}
+
+.evaluateBtn {
+  cursor: pointer;
+  background-color: #731c23;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 10px;
+  border: none;
 }

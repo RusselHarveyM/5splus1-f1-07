@@ -23,7 +23,6 @@ const SpaceNavContent = (props) => {
         );
         setSpaceData(response.data);
         console.log("response space data12 >>>>> ", response.data);
-        evaluate("data:image/png;base64," + response.data[0].image);
       } catch (error) {
         console.log(error);
       }

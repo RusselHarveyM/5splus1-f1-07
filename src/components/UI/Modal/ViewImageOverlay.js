@@ -2,13 +2,16 @@ import React, { useCallback } from "react";
 import classes from "./ViewImageOverlay.module.css";
 import evaluate from "../../rooms/room/evaluate";
 
-const ViewImageOverlay = ({ spaceData }) => {
+const ViewImageOverlay = ({ spaceData, scoreHandler }) => {
   console.log("spaceData", spaceData);
 
   const onEvaluateHandler = useCallback(async () => {
-    const images = spaceData.map((space) => space.image);
+    const images = spaceData
+      .map((space) => "data:image/png;base64," + space.image)
+      .join("");
     console.log(images);
-    evaluate("data:image/png;base64," + images);
+    const result = await evaluate(images);
+    scoreHandler(result);
   }, []);
 
   return (

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Card from "../Card/Card";
 import classes from "./Accordion.module.css";
 
-const Accordion = () => {
+const Accordion = ({ space }) => {
   const [isSort, setIsSort] = useState(false);
   const [isSIO, setIsSIO] = useState(false);
   const [isShine, setIsShine] = useState(false);
@@ -68,12 +68,9 @@ const Accordion = () => {
         >
           <h3>SORT</h3>
           <div className={classes.accordionContainer_comments}>
-            Est dolore labore enim quis consectetur. Do dolor est nulla officia
-            cillum minim id quis ut incididunt nulla id ut. Irure minim
-            incididunt consequat sint deserunt voluptate fugiat dolore anim anim
-            et duis. Elit eiusmod laborum ullamco cillum fugiat do. Do aliquip
-            ea culpa non aliqua veniam culpa minim. Occaecat deserunt et culpa
-            laborum elit qui non sit non.
+            <p>
+              {space?.comments?.sort ? space?.comments?.sort : "No comments"}
+            </p>
           </div>
         </div>
       ) : (
@@ -88,9 +85,7 @@ const Accordion = () => {
         <div className={classes.accordionContainer_item} onClick={onSIOHandler}>
           <h3>SET IN ORDER</h3>
           <div className={classes.accordionContainer_comments}>
-            Magna non officia ex proident. Labore dolor nisi exercitation mollit
-            irure est eiusmod minim. In aliqua elit ipsum ut sunt tempor
-            deserunt.
+            <p>{space?.comments?.setInOrder}</p>
           </div>
         </div>
       ) : (
@@ -105,9 +100,7 @@ const Accordion = () => {
         >
           <h3>SHINE</h3>
           <div className={classes.accordionContainer_comments}>
-            Magna non officia ex proident. Labore dolor nisi exercitation mollit
-            irure est eiusmod minim. In aliqua elit ipsum ut sunt tempor
-            deserunt.
+            <p>{space?.comments?.shine}</p>
           </div>
         </div>
       ) : (
@@ -125,9 +118,7 @@ const Accordion = () => {
         >
           <h3>STANDARDIZE</h3>
           <div className={classes.accordionContainer_comments}>
-            Magna non officia ex proident. Labore dolor nisi exercitation mollit
-            irure est eiusmod minim. In aliqua elit ipsum ut sunt tempor
-            deserunt.
+            <p>{space?.comments?.standarize}</p>
           </div>
         </div>
       ) : (
@@ -146,9 +137,7 @@ const Accordion = () => {
         >
           <h3>SUSTAIN</h3>
           <div className={classes.accordionContainer_comments}>
-            Magna non officia ex proident. Labore dolor nisi exercitation mollit
-            irure est eiusmod minim. In aliqua elit ipsum ut sunt tempor
-            deserunt.
+            <p>{space?.comments?.sustain}</p>
           </div>
         </div>
       ) : (
@@ -166,10 +155,7 @@ const Accordion = () => {
         >
           <h3>SAFETY</h3>
           <div className={classes.accordionContainer_comments}>
-            Occaecat officia voluptate reprehenderit aliqua ut Lorem proident
-            anim. Et sit occaecat esse est officia enim magna velit culpa. Dolor
-            mollit duis ullamco non fugiat exercitation cillum. Ad elit laboris
-            excepteur nulla ipsum incididunt sint labore elit velit.
+            <p>{space?.comments?.safety}</p>
           </div>
         </div>
       ) : (

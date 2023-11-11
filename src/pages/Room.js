@@ -30,42 +30,67 @@ const Room = () => {
       isActive: true,
       spaceId: spaceId,
     };
+
+    const newComment = {
+      sort: "",
+      setInOrder: "",
+      shine: "",
+      standarize: "",
+      sustain: "",
+      security: "",
+      isActive: true,
+      ratingId: space.scores.id,
+    };
+
     // Split the text into lines
     const lines = raw5s.split("\n");
     let i = 0;
 
     lines.forEach((line) => {
-      const match = line.match(/- (\w+) \(\w+\): (\d+)/);
+      const match = line.match(/- (\w+) \(\w+\): (\d+) \((.*?)\)/);
       if (match && i < 4) {
         const property = match[1].toLowerCase();
         const score = match[2];
+        const comment = match[3]; // This is the extracted comment
         const properties = ["sort", "setInOrder", "shine", "standarize"];
         console.log("property:" + property);
         console.log("score:" + score);
+        console.log("comment:" + comment); // Log the comment
         let props = properties[i];
         newRate[props] = score;
+        newComment[props] = comment; // Store the comment
         i++;
       }
     });
     console.log("new rate", newRate);
     setRate(newRate);
-    if (space.scores.length == 0) {
+    if (space.scores.length == 0 && space.comments.length == 0) {
       try {
-        const response = await axios.post(
+        const resRate = await axios.post(
           "https://localhost:7124/api/ratings",
           newRate
         );
-        console.log("response rate", response);
+        const resComment = await axios.post(
+          "https://localhost:7124/api/comment",
+          newComment
+        );
+        console.log("response rate", resRate);
+        console.log("response comment", resComment);
       } catch (error) {
         console.log(error);
       }
     } else {
       try {
-        const response = await axios.put(
+        const resRate = await axios.put(
           `https://localhost:7124/api/ratings/${space.scores.id}`,
           newRate
         );
-        console.log("response rate update", response);
+        const resComment = await axios.put(
+          `https://localhost:7124/api/comment/${space.comments.id}`,
+          newComment
+        );
+        console.log("response rate update", resRate);
+        console.log("response comment update", resComment);
       } catch (error) {
         console.log(error);
       }
@@ -109,23 +134,47 @@ const Room = () => {
       setSpaceId(res.target.id);
       const space = spaces.filter((space) => space.id == res.target.id);
 
+      if (space.length === 0) {
+        console.log("No space found with the given id");
+        return;
+      }
+
       try {
         const response = await axios.get(`https://localhost:7124/api/ratings`);
+        const resComment = await axios.get(
+          `https://localhost:7124/api/comment`
+        );
+
         console.log("response.data", response.data);
-        if (response.data.length > 0) {
-          const scores = response.data.filter(
-            (score) => score.spaceId == res.target.id
-          );
-          console.log("scores", scores);
-          setSpace({ space: space[0], scores: scores[0] });
-        } else {
-          setSpace({ space: space[0], scores: [] });
-        }
+        // if (response.data.length > 0 && resComment.data.length > 0) {
+        const scores = response.data.filter(
+          (score) => score.spaceId == res.target.id
+        );
+        const comments = resComment.data.filter(
+          (comment) =>
+            comment.ratingId == (scores.length > 0 ? scores[0].id : null)
+        );
+
+        // if (scores.length === 0 || comments.length === 0) {
+        //   console.log("No scores or comments found for the given space id");
+        //   return;
+        // }
+
+        console.log("scores", scores);
+        console.log("comments", comments);
+        setSpace({
+          space: space[0],
+          scores: scores ? scores[0] : [],
+          comments: comments ? comments[0] : [],
+        });
+        // } else {
+        //   setSpace({ space: space[0], scores: [], comments: [] });
+        // }
       } catch (error) {
         console.log(error);
       }
     },
-    [space, spaces, spaceId]
+    [spaces]
   );
 
   return (
@@ -160,7 +209,7 @@ const Room = () => {
           <h3>{remark}</h3>
         </div>
         <h1>5S+ Rating</h1>
-        <Accordion />
+        <Accordion space={space} />
       </div>
       <div className={classes.roomContainer_redTags}></div>
     </div>

@@ -63,7 +63,9 @@ const SpaceNavContent = (props) => {
       <header className={classes.spaceTitle}>
         <h2>
           {props.onData?.space?.name}
-          <sup className={classes.spaceScore}>0.0/10</sup>
+          <sup className={classes.spaceScore}>
+            {props.spaceRate?.spaceRating}/10
+          </sup>
         </h2>
         <div className={classes.spaceTitle_buttons}>
           <button>Update Images</button>

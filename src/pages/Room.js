@@ -13,6 +13,7 @@ const Room = () => {
   const [space, setSpace] = useState();
   const [spaceId, setSpaceId] = useState();
   const [overallRating, setOverallRating] = useState(0.0);
+  const [spaceRating, setSpaceRating] = useState(0.0);
   const [remark, setRemark] = useState("NOT CALIBRATED");
 
   const [rate, setRate] = useState({});
@@ -45,6 +46,7 @@ const Room = () => {
     // Split the text into lines
     const lines = raw5s.split("\n");
     let i = 0;
+    let totalScore = 0;
 
     lines.forEach((line) => {
       const match = line.match(/- (\w+) \(\w+\): (\d+) \((.*?)\)/);
@@ -53,6 +55,7 @@ const Room = () => {
         const score = match[2];
         const comment = match[3]; // This is the extracted comment
         const properties = ["sort", "setInOrder", "shine", "standarize"];
+        totalScore += score;
         console.log("property:" + property);
         console.log("score:" + score);
         console.log("comment:" + comment); // Log the comment
@@ -62,6 +65,7 @@ const Room = () => {
         i++;
       }
     });
+    setSpaceRating(totalScore / 4);
     console.log("new rate", newRate);
     setRate(newRate);
     if (space.scores.length == 0 && space.comments.length == 0) {
@@ -201,7 +205,11 @@ const Room = () => {
             ))}
           </div>
         </Card>
-        <SpaceNavContent onData={space} onScoreHandler={onScoreHandler} />
+        <SpaceNavContent
+          onData={space}
+          onScoreHandler={onScoreHandler}
+          spaceRate={spaceRating}
+        />
       </div>
       <div className={classes.roomContainer_ratings}>
         <div className={classes.roomContainer_ratings_rating}>

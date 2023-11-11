@@ -69,7 +69,9 @@ const Accordion = ({ space }) => {
           <h3>SORT</h3>
           <div className={classes.accordionContainer_comments}>
             <p>
-              {space?.comments?.sort ? space?.comments?.sort : "No comments"}
+              {space?.comments?.sort
+                ? space?.comments?.sort
+                : "No comments yet."}
             </p>
           </div>
         </div>
@@ -85,7 +87,11 @@ const Accordion = ({ space }) => {
         <div className={classes.accordionContainer_item} onClick={onSIOHandler}>
           <h3>SET IN ORDER</h3>
           <div className={classes.accordionContainer_comments}>
-            <p>{space?.comments?.setInOrder}</p>
+            <p>
+              {space?.comments?.setInOrder
+                ? space?.comments?.setInOrder
+                : "No comments yet."}
+            </p>
           </div>
         </div>
       ) : (
@@ -100,7 +106,11 @@ const Accordion = ({ space }) => {
         >
           <h3>SHINE</h3>
           <div className={classes.accordionContainer_comments}>
-            <p>{space?.comments?.shine}</p>
+            <p>
+              {space?.comments?.shine
+                ? space?.comments?.shine
+                : "No comments yet."}
+            </p>
           </div>
         </div>
       ) : (
@@ -118,7 +128,11 @@ const Accordion = ({ space }) => {
         >
           <h3>STANDARDIZE</h3>
           <div className={classes.accordionContainer_comments}>
-            <p>{space?.comments?.standarize}</p>
+            <p>
+              {space?.comments?.standarize
+                ? space?.comments?.standarize
+                : "No comments yet."}
+            </p>
           </div>
         </div>
       ) : (
@@ -137,7 +151,11 @@ const Accordion = ({ space }) => {
         >
           <h3>SUSTAIN</h3>
           <div className={classes.accordionContainer_comments}>
-            <p>{space?.comments?.sustain}</p>
+            <p>
+              {space?.comments?.sustain
+                ? space?.comments?.sustain
+                : "No comments yet."}
+            </p>
           </div>
         </div>
       ) : (
@@ -155,7 +173,11 @@ const Accordion = ({ space }) => {
         >
           <h3>SAFETY</h3>
           <div className={classes.accordionContainer_comments}>
-            <p>{space?.comments?.safety}</p>
+            <p>
+              {space?.comments?.safety
+                ? space?.comments?.safety
+                : "No comments yet."}
+            </p>
           </div>
         </div>
       ) : (

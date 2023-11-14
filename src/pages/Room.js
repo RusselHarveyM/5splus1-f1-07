@@ -15,91 +15,128 @@ const Room = () => {
   const [overallRating, setOverallRating] = useState(0.0);
   const [spaceRating, setSpaceRating] = useState(0.0);
   const [remark, setRemark] = useState("NOT CALIBRATED");
-
+  const [isRefreshSNContent, setIsRefreshSNContent] = useState(false); // for refreshing SpaceNavContent.js
   const [rate, setRate] = useState({});
 
   const params = useParams();
 
-  const onScoreHandler = useCallback(async (raw5s) => {
-    const newRate = {
-      sort: 0,
-      setInOrder: 0,
-      shine: 0,
-      standarize: 0,
-      sustain: 0,
-      security: 0,
-      isActive: true,
-      spaceId: spaceId,
-    };
+  const onScoreHandler = useCallback(
+    async (raw5s) => {
+      const newRate = {
+        sort: 0,
+        setInOrder: 0,
+        shine: 0,
+        standarize: 0,
+        sustain: 0,
+        security: 0,
+        isActive: true,
+        spaceId: spaceId,
+      };
 
-    const newComment = {
-      sort: "",
-      setInOrder: "",
-      shine: "",
-      standarize: "",
-      sustain: "",
-      security: "",
-      isActive: true,
-      ratingId: space.scores.id,
-    };
+      const properties = ["sort", "setInOrder", "shine", "standarize"];
 
-    // Split the text into lines
-    const lines = raw5s.split("\n");
-    let i = 0;
-    let totalScore = 0;
+      //     const raw5sTemp = `
+      // Sort: 8
+      // Set In Order: 9
+      // Shine: 9
+      // Standardize: 7
 
-    lines.forEach((line) => {
-      const match = line.match(/- (\w+) \(\w+\): (\d+) \((.*?)\)/);
-      if (match && i < 4) {
-        const property = match[1].toLowerCase();
-        const score = match[2];
-        const comment = match[3]; // This is the extracted comment
-        const properties = ["sort", "setInOrder", "shine", "standarize"];
-        totalScore += score;
-        console.log("property:" + property);
-        console.log("score:" + score);
-        console.log("comment:" + comment); // Log the comment
-        let props = properties[i];
-        newRate[props] = score;
-        newComment[props] = comment; // Store the comment
-        i++;
+      // Improvements:
+      // - Remove personal items that may have been left behind to maintain the principle of sort (Seiri).
+      // - Ensure all chairs and tables are uniformly arranged to enhance orderliness (Seiton).
+      // - Regularly inspect and maintain the cleanliness of the floors and surfaces for optimal shine (Seiso).
+      // - Implement standard operating procedures for the maintenance of the room's regular layout and cleanliness protocols (Seiketsu).
+      // `;
+
+      const lines = raw5s.split("\n");
+      let totalScore = 0;
+
+      lines.forEach((line) => {
+        const match = line.match(/(\w+(?: In Order)?): (\d+)/);
+        if (match) {
+          let property = match[1].toLowerCase();
+          if (property === "order") {
+            property = "setInOrder";
+          }
+          if (property === "standardize") {
+            property = "standarize";
+          }
+          const score = parseInt(match[2]);
+          totalScore += score;
+          newRate[property] = score;
+        }
+      });
+
+      setSpaceRating(() => totalScore / 4);
+      setRate(newRate);
+
+      const createNewComment = (ratingId) => ({
+        sort: "",
+        setInOrder: "",
+        shine: "",
+        standarize: "",
+        sustain: "",
+        security: "",
+        isActive: true,
+        ratingId,
+      });
+
+      const extractComments = (lines, newComment) => {
+        const improvementsIndex = lines.findIndex(
+          (line) => line.trim() === "Improvements:"
+        );
+        const commentLines = lines.slice(improvementsIndex + 1);
+        let i = 0;
+        commentLines.forEach((line) => {
+          if (line.trim().startsWith("-")) {
+            const match = line.match(/- (.*)/);
+            if (match) {
+              const comment = match[1];
+              newComment[properties[i++]] = comment;
+            }
+          }
+        });
+      };
+
+      if (!space.scores && !space.comments) {
+        try {
+          const resRate = await axios.post(
+            "https://localhost:7124/api/ratings",
+            newRate
+          );
+
+          const newComment = createNewComment(resRate.data);
+          extractComments(lines, newComment);
+
+          const resComment = await axios.post(
+            "https://localhost:7124/api/comment",
+            newComment
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        try {
+          const resRate = await axios.put(
+            `https://localhost:7124/api/ratings/${space.scores.id}`,
+            newRate
+          );
+
+          const newComment = createNewComment(resRate.data);
+          extractComments(lines, newComment);
+
+          const resComment = await axios.put(
+            `https://localhost:7124/api/comment/${space.scores.id}`,
+            newComment
+          );
+        } catch (error) {
+          console.error(error);
+        }
       }
-    });
-    setSpaceRating(totalScore / 4);
-    console.log("new rate", newRate);
-    setRate(newRate);
-    if (space.scores.length == 0 && space.comments.length == 0) {
-      try {
-        const resRate = await axios.post(
-          "https://localhost:7124/api/ratings",
-          newRate
-        );
-        const resComment = await axios.post(
-          "https://localhost:7124/api/comment",
-          newComment
-        );
-        console.log("response rate", resRate);
-        console.log("response comment", resComment);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      try {
-        const resRate = await axios.put(
-          `https://localhost:7124/api/ratings/${space.scores.id}`,
-          newRate
-        );
-        const resComment = await axios.put(
-          `https://localhost:7124/api/comment/${space.comments.id}`,
-          newComment
-        );
-        console.log("response rate update", resRate);
-        console.log("response comment update", resComment);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  });
+      setIsRefreshSNContent((prevState) => !prevState);
+    },
+    [space, spaceId]
+  );
 
   useEffect(() => {
     const fetchRoomData = async () => {
@@ -133,53 +170,47 @@ const Room = () => {
     window.history.back();
   };
 
-  const onSpaceNavHandler = useCallback(
-    async (res) => {
-      setSpaceId(res.target.id);
-      const space = spaces.filter((space) => space.id == res.target.id);
-
-      if (space.length === 0) {
-        console.log("No space found with the given id");
-        return;
-      }
-
+  useEffect(() => {
+    const upateSpace = async () => {
       try {
+        const space = spaces.filter((space) => space.id == spaceId);
+
+        if (space.length === 0) {
+          console.log("No space found with the given id");
+          return;
+        }
         const response = await axios.get(`https://localhost:7124/api/ratings`);
         const resComment = await axios.get(
           `https://localhost:7124/api/comment`
         );
 
         console.log("response.data", response.data);
-        // if (response.data.length > 0 && resComment.data.length > 0) {
+
         const scores = response.data.filter(
-          (score) => score.spaceId == res.target.id
+          (score) => score.spaceId == spaceId
         );
         const comments = resComment.data.filter(
           (comment) =>
             comment.ratingId == (scores.length > 0 ? scores[0].id : null)
         );
 
-        // if (scores.length === 0 || comments.length === 0) {
-        //   console.log("No scores or comments found for the given space id");
-        //   return;
-        // }
-
         console.log("scores", scores);
         console.log("comments", comments);
         setSpace({
           space: space[0],
-          scores: scores ? scores[0] : [],
-          comments: comments ? comments[0] : [],
+          scores: scores[0],
+          comments: comments[0],
         });
-        // } else {
-        //   setSpace({ space: space[0], scores: [], comments: [] });
-        // }
       } catch (error) {
         console.log(error);
       }
-    },
-    [spaces]
-  );
+    };
+    upateSpace();
+  }, [spaceId, spaces, isRefreshSNContent]);
+
+  const onSpaceNavHandler = useCallback(async (res) => {
+    setSpaceId(res.target.id);
+  }, []);
 
   return (
     <div className={classes.roomContainer}>

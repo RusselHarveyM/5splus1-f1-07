@@ -3,13 +3,10 @@ import classes from "./ViewImageOverlay.module.css";
 import evaluate from "../../rooms/room/evaluate";
 
 const ViewImageOverlay = ({ spaceData, scoreHandler }) => {
-  console.log("spaceData", spaceData);
-
   const onEvaluateHandler = useCallback(async () => {
     const images = spaceData
       .map((space) => "data:image/png;base64," + space.image)
       .join("");
-    console.log(images);
     const result = await evaluate(images);
     scoreHandler(result);
   }, []);

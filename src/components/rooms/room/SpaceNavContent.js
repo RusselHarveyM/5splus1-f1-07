@@ -16,8 +16,6 @@ const SpaceNavContent = (props) => {
   const [spaceData, setSpaceData] = useState();
   let raw5s = "";
 
-  console.log("props.onData ;';';';", props.onData);
-
   useEffect(() => {
     const fetchSpaceData = async () => {
       try {
@@ -25,7 +23,6 @@ const SpaceNavContent = (props) => {
           `https://localhost:7124/api/spaceimage/get/${props.onData?.space?.id}`
         );
         setSpaceData(response.data);
-        console.log("response space data12 >>>>> ", response.data);
       } catch (error) {
         console.log(error);
       }
@@ -40,9 +37,6 @@ const SpaceNavContent = (props) => {
     setIsModalOpen(false);
   }, []);
 
-  // console.log("params.spaceId >>>", props.onData);
-  console.log(raw5s);
-  console.log("props {}{}{{}", props);
   return (
     <Card className={classes.spaceNavigation_content}>
       {isModalOpen && (
@@ -63,9 +57,7 @@ const SpaceNavContent = (props) => {
       <header className={classes.spaceTitle}>
         <h2>
           {props.onData?.space?.name}
-          <sup className={classes.spaceScore}>
-            {props.spaceRate?.spaceRating}/10
-          </sup>
+          <sup className={classes.spaceScore}>{props.spaceRate}/10</sup>
         </h2>
         <div className={classes.spaceTitle_buttons}>
           <button>Update Images</button>
@@ -114,7 +106,7 @@ const SpaceNavContent = (props) => {
         </Card>
         <Card
           className={`${
-            props.onData?.scores?.standardize >= 8 ? classes.highlight : ""
+            props.onData?.scores?.standarize >= 8 ? classes.highlight : ""
           }`}
         >
           <div className={classes.scoreTitle}>
@@ -122,7 +114,7 @@ const SpaceNavContent = (props) => {
           </div>
           {/* score here */}
           <h3>
-            {props.onData?.scores?.standardize}/{spaceTotalScore}
+            {props.onData?.scores?.standarize}/{spaceTotalScore}
           </h3>
         </Card>
         <Card

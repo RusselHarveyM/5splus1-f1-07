@@ -14,7 +14,7 @@ async function evaluate(base64url) {
         content: [
           {
             type: "text",
-            text: "from 1-10 rate the images using first 4S in the 5s methodology, just respond with the score for each S and nothing else, then in another paragraph in short sentences explain how the score can be improved answer in a bullet format.",
+            text: "from 1-10 rate the images using first 4S in the 5s methodology, just respond with the score for each S in english without additional or explanatory information about the preceding word, and nothing else, then in another paragraph in short sentences explain how the score can be improved answer in a bullet format.",
           },
           {
             type: "image_url",

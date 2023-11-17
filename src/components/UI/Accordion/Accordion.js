@@ -166,28 +166,6 @@ const Accordion = ({ space }) => {
           <h3>SUSTAIN</h3>
         </div>
       )}
-      {isSafety ? (
-        <div
-          className={classes.accordionContainer_item}
-          onClick={onSafetyHandler}
-        >
-          <h3>SAFETY</h3>
-          <div className={classes.accordionContainer_comments}>
-            <p>
-              {space?.comments?.safety
-                ? space?.comments?.safety
-                : "No comments yet."}
-            </p>
-          </div>
-        </div>
-      ) : (
-        <div
-          className={classes.accordionContainer_item}
-          onClick={onSafetyHandler}
-        >
-          <h3>SAFETY</h3>
-        </div>
-      )}
     </Card>
   );
 };

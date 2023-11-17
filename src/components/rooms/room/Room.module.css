@@ -110,6 +110,10 @@
   border-radius: 100%;
 }
 
+.spaceNavigation_list button {
+  color: #731c23;
+}
+
 .roomContainer_ratings_rating * {
   color: #fff !important;
 }

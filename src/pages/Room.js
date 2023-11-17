@@ -34,22 +34,7 @@ const Room = () => {
       };
 
       const properties = ["sort", "setInOrder", "shine", "standarize"];
-
-      //     const raw5sTemp = `
-      // Sort: 8
-      // Set In Order: 9
-      // Shine: 9
-      // Standardize: 7
-
-      // Improvements:
-      // - Remove personal items that may have been left behind to maintain the principle of sort (Seiri).
-      // - Ensure all chairs and tables are uniformly arranged to enhance orderliness (Seiton).
-      // - Regularly inspect and maintain the cleanliness of the floors and surfaces for optimal shine (Seiso).
-      // - Implement standard operating procedures for the maintenance of the room's regular layout and cleanliness protocols (Seiketsu).
-      // `;
-
       const lines = raw5s.split("\n");
-      let totalScore = 0;
 
       lines.forEach((line) => {
         const match = line.match(/(\w+(?: In Order)?): (\d+)/);
@@ -62,12 +47,10 @@ const Room = () => {
             property = "standarize";
           }
           const score = parseInt(match[2]);
-          totalScore += score;
           newRate[property] = score;
         }
       });
 
-      setSpaceRating(() => totalScore / 4);
       setRate(newRate);
 
       const createNewComment = (ratingId) => ({
@@ -194,8 +177,26 @@ const Room = () => {
             comment.ratingId == (scores.length > 0 ? scores[0].id : null)
         );
 
-        console.log("scores", scores);
-        console.log("comments", comments);
+        if (scores.length > 0) {
+          const properties = [
+            "security",
+            "setInOrder",
+            "shine",
+            "sort",
+            "standarize",
+            "sustain",
+          ];
+          let totalScores = 0;
+
+          properties.forEach((property) => {
+            totalScores += scores[0][property];
+          });
+
+          setSpaceRating(() => totalScores / 4);
+        } else {
+          setSpaceRating(() => 0);
+        }
+
         setSpace({
           space: space[0],
           scores: scores[0],

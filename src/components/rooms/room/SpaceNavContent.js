@@ -3,32 +3,77 @@ import ReactDom from "react-dom";
 import classes from "./SpaceNavContent.module.css";
 import Card from "../../UI/Card/Card";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
 import Backdrop from "../../UI/Modal/BackdropModal.js";
 import ViewImageOverlay from "../../UI/Modal/ViewImageOverlay.js";
+import ScoreCard from "./ScoreCard.js";
+
+const apiBaseUrl = "https://localhost:7124/api/spaceimage";
+
+const deleteSpaceData = async (data) => {
+  try {
+    await axios.delete(`${apiBaseUrl}/delete/${data.id}`);
+    setIsRefresh(!isRefresh);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const SpaceNavContent = (props) => {
   const [spaceTotalScore, setSpaceTotalScore] = useState(10);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const params = useParams();
+  const [isRefresh, setIsRefresh] = useState(false);
   const [spaceData, setSpaceData] = useState();
-  let raw5s = "";
+
+  const fetchSpaceData = useCallback(async (id) => {
+    try {
+      console.log(id, "id");
+      const response = await axios.get(`${apiBaseUrl}/get/${id}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  }, []);
+
+  const deleteSpaceData = async (data) => {
+    try {
+      await axios.delete(`${apiBaseUrl}/delete/${data.id}`);
+      setIsRefresh(!isRefresh);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const uploadSpaceData = async (id, image) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", image);
+      await axios.post(`${apiBaseUrl}/upload/${id}`, formData);
+      console.log("uploading");
+      setIsRefresh(!isRefresh);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchSpaceData = async () => {
-      try {
-        const response = await axios.get(
-          `https://localhost:7124/api/spaceimage/get/${props.onData?.space?.id}`
-        );
-        setSpaceData(response.data);
-      } catch (error) {
-        console.log(error);
-      }
+    const fetchData = async () => {
+      const data = await fetchSpaceData(props.onData?.space?.id);
+      console.log(data, "data");
+      setSpaceData(data);
     };
-    fetchSpaceData();
-  }, [props.onData?.space?.id]);
+    fetchData();
+  }, [isRefresh, props.onData?.space?.id]);
+
+  const onSetNewSpaceDataHandler = async (data, selectedImages, isDelete) => {
+    if (isDelete) {
+      data?.map(deleteSpaceData);
+    }
+    selectedImages.map((image) =>
+      uploadSpaceData(props.onData?.space?.id, image)
+    );
+  };
 
   const onViewImageHandler = useCallback(() => {
     setIsModalOpen(true);
@@ -49,6 +94,7 @@ const SpaceNavContent = (props) => {
             <ViewImageOverlay
               scoreHandler={props.onScoreHandler}
               spaceData={spaceData}
+              spaceDataHandler={onSetNewSpaceDataHandler}
             />,
             document.getElementById("overlay-root")
           )}
@@ -64,108 +110,16 @@ const SpaceNavContent = (props) => {
         </div>
       </header>
       <div className={classes.spaceBody}>
-        <Card
-          className={`${
-            props.onData?.scores?.sort >= 8 && props.onData?.scores?.sort <= 10
-              ? classes.okhighlight
-              : ""
-          } ${
-            props.onData?.scores?.sort >= 5 && props.onData?.scores?.sort <= 7
-              ? classes.warnhighlight
-              : ""
-          }`}
-        >
-          <div className={classes.scoreTitle}>
-            <h3>SORT</h3>
-          </div>
-          {/* score here */}
-          <h3>
-            {props.onData?.scores?.sort}/{spaceTotalScore}
-          </h3>
-        </Card>
-        <Card
-          className={`${
-            props.onData?.scores?.setInOrder >= 8 &&
-            props.onData?.scores?.setInOrder <= 10
-              ? classes.okhighlight
-              : ""
-          } ${
-            props.onData?.scores?.setInOrder >= 5 &&
-            props.onData?.scores?.setInOrder <= 7
-              ? classes.warnhighlight
-              : ""
-          }`}
-        >
-          <div className={classes.scoreTitle}>
-            <h3>SET IN ORDER</h3>
-          </div>
-          {/* score here */}
-          <h3>
-            {props.onData?.scores?.setInOrder}/{spaceTotalScore}
-          </h3>
-        </Card>
-        <Card
-          className={`${
-            props.onData?.scores?.shine >= 8 &&
-            props.onData?.scores?.shine <= 10
-              ? classes.okhighlight
-              : ""
-          } ${
-            props.onData?.scores?.shine >= 5 && props.onData?.scores?.shine <= 7
-              ? classes.warnhighlight
-              : ""
-          }`}
-        >
-          <div className={classes.scoreTitle}>
-            <h3>SHINE</h3>
-          </div>
-          {/* score here */}
-          <h3>
-            {props.onData?.scores?.shine}/{spaceTotalScore}
-          </h3>
-        </Card>
-        <Card
-          className={`${
-            props.onData?.scores?.standarize >= 8 &&
-            props.onData?.scores?.standarize <= 10
-              ? classes.okhighlight
-              : ""
-          } ${
-            props.onData?.scores?.standarize >= 5 &&
-            props.onData?.scores?.standarize <= 7
-              ? classes.warnhighlight
-              : ""
-          }`}
-        >
-          <div className={classes.scoreTitle}>
-            <h3>STANDARDIZE</h3>
-          </div>
-          {/* score here */}
-          <h3>
-            {props.onData?.scores?.standarize}/{spaceTotalScore}
-          </h3>
-        </Card>
-        <Card
-          className={`${
-            props.onData?.scores?.sustain >= 8 &&
-            props.onData?.scores?.sustain <= 10
-              ? classes.okhighlight
-              : ""
-          } ${
-            props.onData?.scores?.sustain >= 5 &&
-            props.onData?.scores?.sustain <= 7
-              ? classes.warnhighlight
-              : ""
-          }`}
-        >
-          <div className={classes.scoreTitle}>
-            <h3>SUSTAIN</h3>
-          </div>
-          {/* score here */}
-          <h3>
-            {props.onData?.scores?.sustain}/{spaceTotalScore}
-          </h3>
-        </Card>
+        {["sort", "setInOrder", "shine", "standarize", "sustain"].map(
+          (title) => (
+            <ScoreCard
+              key={title}
+              score={props.onData?.scores?.[title]}
+              totalScore={spaceTotalScore}
+              title={title.toUpperCase()}
+            />
+          )
+        )}
       </div>
     </Card>
   );

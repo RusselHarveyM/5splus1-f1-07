@@ -167,8 +167,6 @@ const Room = () => {
           `https://localhost:7124/api/comment`
         );
 
-        console.log("response.data", response.data);
-
         const scores = response.data.filter(
           (score) => score.spaceId == spaceId
         );

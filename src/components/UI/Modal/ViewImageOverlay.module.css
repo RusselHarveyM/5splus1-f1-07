@@ -30,10 +30,12 @@
   background-color: #ffd95d;
 }
 
-.image {
+.image,
+.uploadImage {
   border-radius: 10px;
   width: 5rem;
   height: 5rem;
+  border: none;
 }
 
 .container_header {
@@ -90,4 +92,28 @@
   padding: 0.1rem 0.2rem;
   text-align: center;
   border-radius: 100%;
+}
+.uploadImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed #731c23;
+  cursor: pointer;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 10px;
+}
+
+.newImage {
+  border: 1px dashed #731c23;
+  padding: 4px;
+}
+
+.uploadImage img {
+  cursor: pointer;
+  height: inherit;
+  width: inherit;
+  object-fit: contain;
+  /* box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.21); */
+  border-radius: 1rem;
 }

@@ -1,10 +1,16 @@
 import React, { useCallback, useState } from "react";
 import classes from "./ViewImageOverlay.module.css";
 import evaluate from "../../rooms/room/evaluate";
+import addImage from "../../../static/images/addImage.png";
 
-const ViewImageOverlay = ({ spaceData, scoreHandler }) => {
+const ViewImageOverlay = ({ spaceData, scoreHandler, spaceDataHandler }) => {
   const [isEdit, setIsEdit] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [data, setData] = useState(spaceData);
+  const [tempData, setTempData] = useState(data);
+  const [deletedData, setDeletedData] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   const onEvaluateHandler = useCallback(async () => {
     const images = data
@@ -12,12 +18,45 @@ const ViewImageOverlay = ({ spaceData, scoreHandler }) => {
       .join("");
     const result = await evaluate(images);
     scoreHandler(result);
-  }, []);
+  }, [data, scoreHandler]);
 
   const onEditHandler = () => {
+    setDeletedData([]);
+    setSelectedImages([]);
     setIsEdit(!isEdit);
-    if (isEdit) {
-    }
+    setIsDelete(false);
+  };
+
+  const onConfirmHandler = () => {
+    spaceDataHandler(
+      deletedData ? deletedData : [],
+      selectedImages ? selectedImages : [],
+      isDelete
+    );
+    setIsEdit(!isEdit);
+  };
+
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    setSelectedImages(files);
+  };
+
+  const onDeleteImageHandler = (event) => {
+    const delData = data.filter(
+      (image) => image.id === parseInt(event.target.id)
+    );
+    setDeletedData((prevData) => [...prevData, ...delData]);
+    setData(() =>
+      data.filter((image) => image.id !== parseInt(event.target.id))
+    );
+    setIsDelete(true);
+  };
+
+  const onCancelButtonHandler = () => {
+    setData(tempData);
+    setDeletedData([]);
+    setIsDelete(false);
+    setIsEdit(!isEdit);
   };
 
   return (
@@ -36,12 +75,42 @@ const ViewImageOverlay = ({ spaceData, scoreHandler }) => {
               key={image.id}
             />
             {isEdit ? (
-              <button className={classes.deleteImageBtn}>X</button>
+              <button
+                id={image.id}
+                className={classes.deleteImageBtn}
+                onClick={onDeleteImageHandler}
+              >
+                X
+              </button>
             ) : (
               ""
             )}
           </div>
         ))}
+        {selectedImages.map((url, index) => (
+          <img
+            key={index}
+            src={URL.createObjectURL(url)}
+            alt="Selected"
+            className={`${classes.image} ${isEdit ? classes.newImage : ""}`}
+          />
+        ))}
+        {isEdit ? (
+          <label htmlFor="imageUpload" className={classes.uploadImage}>
+            <img src={addImage} alt="upload" />
+            <input
+              type="file"
+              name="file"
+              id="imageUpload"
+              accept="image/png, image/jpeg"
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+              multiple
+            />
+          </label>
+        ) : (
+          ""
+        )}
       </div>
       <div className={classes.buttonsContainer}>
         <button className={classes.evaluateBtn} onClick={onEvaluateHandler}>
@@ -51,11 +120,11 @@ const ViewImageOverlay = ({ spaceData, scoreHandler }) => {
           <div className={classes.editBtnContainer}>
             <button
               className={classes.cancelBtn}
-              onClick={() => setIsEdit(!isEdit)}
+              onClick={onCancelButtonHandler}
             >
               Cancel
             </button>
-            <button className={classes.confirmBtn} onClick={onEditHandler}>
+            <button className={classes.confirmBtn} onClick={onConfirmHandler}>
               Confirm
             </button>
           </div>

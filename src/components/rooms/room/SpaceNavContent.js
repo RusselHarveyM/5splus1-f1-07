@@ -16,12 +16,8 @@ const SpaceNavContent = (props) => {
   const [isRefresh, setIsRefresh] = useState(false);
   const [spaceData, setSpaceData] = useState();
 
-  console.log("props.spaceRate >>>> ", props.spaceRate);
-  console.log("props.onData >>>> ", props.onData);
-
   const fetchSpaceData = useCallback(async (id) => {
     try {
-      console.log(id, "id");
       const response = await axios.get(`${apiBaseUrl}/get/${id}`);
       return response.data;
     } catch (error) {

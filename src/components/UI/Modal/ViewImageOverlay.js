@@ -7,9 +7,8 @@ const ViewImageOverlay = ({ spaceData, scoreHandler, spaceDataHandler }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [data, setData] = useState(spaceData);
-  const [tempData, setTempData] = useState(data);
+  const [tempData] = useState(data);
   const [deletedData, setDeletedData] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
 
   const onEvaluateHandler = useCallback(async () => {

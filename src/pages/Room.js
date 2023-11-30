@@ -10,15 +10,26 @@ import Accordion from "../components/UI/Accordion/Accordion";
 const Room = () => {
   const [roomData, setRoomData] = useState();
   const [spaces, setSpaces] = useState([]);
-  const [space, setSpace] = useState();
+  const [space, setSpace] = useState([]);
   const [spaceId, setSpaceId] = useState();
   const [overallRating, setOverallRating] = useState(0.0);
-  const [spaceRating, setSpaceRating] = useState(0.0);
+  const [spaceRating, setSpaceRating] = useState([]);
   const [remark, setRemark] = useState("NOT CALIBRATED");
   const [isRefreshSNContent, setIsRefreshSNContent] = useState(false); // for refreshing SpaceNavContent.js
   const [rate, setRate] = useState({});
 
   const params = useParams();
+
+  useEffect(() => {
+    setOverallRating(() => {
+      let totalScore = 0;
+      spaceRating?.forEach((current) => {
+        totalScore += current.rating;
+      });
+      console.log("current spaceRating >>>.", spaceRating);
+      return (totalScore / spaceRating.length).toPrecision(2);
+    });
+  }, [spaceRating]);
 
   const onScoreHandler = useCallback(
     async (raw5s) => {
@@ -35,6 +46,8 @@ const Room = () => {
 
       const properties = ["sort", "setInOrder", "shine", "standarize"];
       const lines = raw5s.split("\n");
+      const space = space.filter((s) => s.id == spaceId);
+      console("fin space >>>>>", space);
 
       lines.forEach((line) => {
         const match = line.match(/(\w+(?: In Order)?): (\d+)/);
@@ -81,7 +94,7 @@ const Room = () => {
         });
       };
 
-      if (!space.scores && !space.comments) {
+      if (!space[0].scores && !space[0].comments) {
         try {
           const resRate = await axios.post(
             "https://localhost:7124/api/ratings",
@@ -101,7 +114,7 @@ const Room = () => {
       } else {
         try {
           const resRate = await axios.put(
-            `https://localhost:7124/api/ratings/${space.scores.id}`,
+            `https://localhost:7124/api/ratings/${space[0].scores.id}`,
             newRate
           );
 
@@ -109,7 +122,7 @@ const Room = () => {
           extractComments(lines, newComment);
 
           const resComment = await axios.put(
-            `https://localhost:7124/api/comment/${space.scores.id}`,
+            `https://localhost:7124/api/comment/${space[0].scores.id}`,
             newComment
           );
         } catch (error) {
@@ -156,49 +169,78 @@ const Room = () => {
   useEffect(() => {
     const upateSpace = async () => {
       try {
-        const space = spaces.filter((space) => space.id == spaceId);
+        spaces.forEach(async (space) => {
+          console.log("im in ");
+          console.log("im in space", space);
+          if (space.length === 0) {
+            console.log("No space found with the given id");
+            return;
+          }
+          const response = await axios.get(
+            `https://localhost:7124/api/ratings`
+          );
+          const resComment = await axios.get(
+            `https://localhost:7124/api/comment`
+          );
 
-        if (space.length === 0) {
-          console.log("No space found with the given id");
-          return;
-        }
-        const response = await axios.get(`https://localhost:7124/api/ratings`);
-        const resComment = await axios.get(
-          `https://localhost:7124/api/comment`
-        );
+          const scores = response.data.filter(
+            (score) => score.spaceId == space.id
+          );
 
-        const scores = response.data.filter(
-          (score) => score.spaceId == spaceId
-        );
-        const comments = resComment.data.filter(
-          (comment) =>
-            comment.ratingId == (scores.length > 0 ? scores[0].id : null)
-        );
+          const comments = resComment.data.filter(
+            (comment) =>
+              comment.ratingId == (scores.length > 0 ? scores[0].id : null)
+          );
 
-        if (scores.length > 0) {
-          const properties = [
-            "security",
-            "setInOrder",
-            "shine",
-            "sort",
-            "standarize",
-            "sustain",
-          ];
-          let totalScores = 0;
+          if (scores.length > 0) {
+            const properties = [
+              "security",
+              "setInOrder",
+              "shine",
+              "sort",
+              "standarize",
+              "sustain",
+            ];
+            let totalScores = 0;
 
-          properties.forEach((property) => {
-            totalScores += scores[0][property];
+            properties.forEach((property) => {
+              totalScores += scores[0][property];
+            });
+
+            let score = totalScores / 4;
+            // let isFound = spaceRating.filter(
+            //   (rating) => rating.id === parseInt(spaceId)
+            // );
+            // if (isFound.length === 0) {
+            setSpaceRating((prevRatings) => [
+              ...prevRatings,
+              { id: space.id, rating: score },
+            ]);
+            // }
+          } else {
+            let isFound = spaceRating.filter(
+              (rating) => rating.id === parseInt(spaceId)
+            );
+            // if (isFound.length === 0) {
+            setSpaceRating((prevRatings) => [
+              ...prevRatings,
+              { id: space.id, rating: 0 },
+            ]);
+            // }
+          }
+
+          setSpace((prevSpace) => {
+            const newSpace = prevSpace.filter((space) => space.id !== spaceId);
+            return [
+              ...newSpace,
+              {
+                id: space.id,
+                space: space,
+                scores: scores[0],
+                comments: comments[0],
+              },
+            ];
           });
-
-          setSpaceRating(() => totalScores / 4);
-        } else {
-          setSpaceRating(() => 0);
-        }
-
-        setSpace({
-          space: space[0],
-          scores: scores[0],
-          comments: comments[0],
         });
       } catch (error) {
         console.log(error);
@@ -236,9 +278,12 @@ const Room = () => {
           </div>
         </Card>
         <SpaceNavContent
-          onData={space}
+          onData={space.filter((s) => s.id === parseInt(spaceId))}
           onScoreHandler={onScoreHandler}
-          spaceRate={spaceRating}
+          spaceRate={spaceRating.filter(
+            (rating) => rating.id === parseInt(spaceId)
+          )}
+          // overallScore={onSetTotalScoreHandler}
         />
       </div>
       <div className={classes.roomContainer_ratings}>
@@ -247,7 +292,7 @@ const Room = () => {
           <h3>{remark}</h3>
         </div>
         <h1>5S+ Rating</h1>
-        <Accordion space={space} />
+        <Accordion space={space.filter((s) => s.id === parseInt(spaceId))} />
       </div>
       <div className={classes.roomContainer_redTags}></div>
     </div>

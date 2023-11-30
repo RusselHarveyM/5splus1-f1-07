@@ -10,20 +10,14 @@ import ScoreCard from "./ScoreCard.js";
 
 const apiBaseUrl = "https://localhost:7124/api/spaceimage";
 
-const deleteSpaceData = async (data) => {
-  try {
-    await axios.delete(`${apiBaseUrl}/delete/${data.id}`);
-    setIsRefresh(!isRefresh);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const SpaceNavContent = (props) => {
   const [spaceTotalScore, setSpaceTotalScore] = useState(10);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
   const [spaceData, setSpaceData] = useState();
+
+  console.log("props.spaceRate >>>> ", props.spaceRate);
+  console.log("props.onData >>>> ", props.onData);
 
   const fetchSpaceData = useCallback(async (id) => {
     try {
@@ -59,19 +53,19 @@ const SpaceNavContent = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchSpaceData(props.onData?.space?.id);
+      const data = await fetchSpaceData(props.onData[0]?.space?.id);
       console.log(data, "data");
       setSpaceData(data);
     };
     fetchData();
-  }, [isRefresh, props.onData?.space?.id]);
+  }, [isRefresh, props.onData[0]?.space?.id]);
 
   const onSetNewSpaceDataHandler = async (data, selectedImages, isDelete) => {
     if (isDelete) {
       data?.map(deleteSpaceData);
     }
     selectedImages.map((image) =>
-      uploadSpaceData(props.onData?.space?.id, image)
+      uploadSpaceData(props.onData[0]?.space?.id, image)
     );
   };
 
@@ -102,8 +96,10 @@ const SpaceNavContent = (props) => {
       )}
       <header className={classes.spaceTitle}>
         <h2>
-          {props.onData?.space?.name}
-          <sup className={classes.spaceScore}>{props.spaceRate}/10</sup>
+          {props.onData[0]?.space?.name}
+          <sup className={classes.spaceScore}>
+            {props.spaceRate[0]?.rating}/10
+          </sup>
         </h2>
         <div className={classes.spaceTitle_buttons}>
           <button onClick={onViewImageHandler}>View Images</button>
@@ -114,7 +110,7 @@ const SpaceNavContent = (props) => {
           (title) => (
             <ScoreCard
               key={title}
-              score={props.onData?.scores?.[title]}
+              score={props.onData[0]?.scores?.[title]}
               totalScore={spaceTotalScore}
               title={title.toUpperCase()}
             />

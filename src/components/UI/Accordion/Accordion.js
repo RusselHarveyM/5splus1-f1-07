@@ -69,8 +69,8 @@ const Accordion = ({ space }) => {
           <h3>SORT</h3>
           <div className={classes.accordionContainer_comments}>
             <p>
-              {space?.comments?.sort
-                ? space?.comments?.sort
+              {space[0]?.comments?.sort
+                ? space[0]?.comments?.sort
                 : "No comments yet."}
             </p>
           </div>
@@ -88,8 +88,8 @@ const Accordion = ({ space }) => {
           <h3>SET IN ORDER</h3>
           <div className={classes.accordionContainer_comments}>
             <p>
-              {space?.comments?.setInOrder
-                ? space?.comments?.setInOrder
+              {space[0]?.comments?.setInOrder
+                ? space[0]?.comments?.setInOrder
                 : "No comments yet."}
             </p>
           </div>
@@ -107,8 +107,8 @@ const Accordion = ({ space }) => {
           <h3>SHINE</h3>
           <div className={classes.accordionContainer_comments}>
             <p>
-              {space?.comments?.shine
-                ? space?.comments?.shine
+              {space[0]?.comments?.shine
+                ? space[0]?.comments?.shine
                 : "No comments yet."}
             </p>
           </div>
@@ -129,8 +129,8 @@ const Accordion = ({ space }) => {
           <h3>STANDARDIZE</h3>
           <div className={classes.accordionContainer_comments}>
             <p>
-              {space?.comments?.standarize
-                ? space?.comments?.standarize
+              {space[0]?.comments?.standarize
+                ? space[0]?.comments?.standarize
                 : "No comments yet."}
             </p>
           </div>
@@ -152,8 +152,8 @@ const Accordion = ({ space }) => {
           <h3>SUSTAIN</h3>
           <div className={classes.accordionContainer_comments}>
             <p>
-              {space?.comments?.sustain
-                ? space?.comments?.sustain
+              {space[0]?.comments?.sustain
+                ? space[0]?.comments?.sustain
                 : "No comments yet."}
             </p>
           </div>
